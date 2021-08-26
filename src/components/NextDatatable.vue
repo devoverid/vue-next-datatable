@@ -13,7 +13,7 @@
                         type="text" 
                         placeholder="Search" 
                         v-model="search"
-                        @keydown="onFilter"
+                        @keypress="onFilter"
                     >
                 </label>
             </div>
@@ -42,14 +42,12 @@
         </table>
     </div>
 </template>
-<script lang="ts">
-import { ref, defineComponent, PropType, onMounted, computed, onBeforeMount, inject, reactive } from 'vue'
+<script>
+import { ref, defineComponent,  onMounted, computed, onBeforeMount, inject, reactive } from 'vue'
 import events from "../utils/events"
-import {
-    ITableOptions,
-    ITableColumn,
-    INextDatatableOptions,
-} from '../utils/types'
+
+import FlexSearch from "flexsearch"
+
 
 export default defineComponent({
     inject: ["$nextDatatable"],
@@ -59,7 +57,7 @@ export default defineComponent({
             default: () => []
         },
         columns: {
-            type: Array as PropType<ITableColumn[]>,
+            type: Array ,
             default: () => [
                 {
                     name: 'id',
@@ -68,14 +66,14 @@ export default defineComponent({
             ]
         },
         filters: {
-            type: Object as PropType<{ [key: string]: (value: any) => string }>,
+            type: Object,
             default: () => {}
         },
         search: {
             type: String,
         },
         options: {
-            type: Object as PropType<ITableOptions>,
+            type: Object,
             default: () => {
                 return {
                     paginate: true,
@@ -88,44 +86,46 @@ export default defineComponent({
     },
     setup(props, context) {
         let search = ref('')
-        const $nextDatatable = inject('$nextDatatable') as INextDatatableOptions
-        const defaultOptions: ITableOptions = reactive({
+        const $nextDatatable = inject('$nextDatatable')
+        const defaultOptions = reactive({
             paginate: true,
             searching: true,
             perPage: 10,
             showEntriesBy: [10, 20, 50, 100]
         })
-        const options: ITableOptions = Object.assign(defaultOptions, $nextDatatable.defaults, props.options)
+        const options = Object.assign(defaultOptions, $nextDatatable.defaults, props.options)
 
         let filteredData = reactive(props.data)
-        // const searchableColumns = computed(() => props.columns.filter(column => column.searchable))
-        // const isServerSide = computed(() => (typeof $nextDatatable.options.ajax !== 'undefined' && typeof $nextDatatable.options.url !== 'undefined'))
+        const searchableColumns = computed(() => props.columns.filter(column => column.searchable !== false))
+        const isServerSide = false
 
-        // const rows = computed(() => {
-        //     // const data = props.data
-        //     return filteredData
-        // })
-        
-        const onFilter = (event: any): void => {
+        const rows = computed(() => {
             // const data = props.data
-            
-            // // If not server side, we need to filter the data
-            // if (!isServerSide) {
-            //     filteredData = data.filter(each: Object<{ [key: string]: (value: any) => string }>  => {
-            //         let res = false
-            //         for (let i = 0; i < searchableColumns.value.length; i++) {
-            //             const column = searchableColumns.value[i];
-            //             if(each[column].contains(search.value)) {
-            //                 res = true
-            //                 break
-            //             }
-            //         }
-            //         // searchableColumns.value.forEach(column => {
-            //         //     if(each[column].contains(search.value)) res = true
-            //         // })
-            //         return res
-            //     })
-            // }
+            return filteredData
+        })
+        console.log(searchableColumns)
+
+        console.log(searchableColumns.value)
+        // Init FlexSearch
+        const index = new FlexSearch.Document({
+            id: "id",            
+            index: searchableColumns.value.map(s => s.name)
+        });
+
+
+
+        onMounted(() => {
+            // Add data to FlexSearch document
+            props.data.forEach((data,i) => index.add(i,data))
+        })
+        
+        
+        const onFilter = (event) => {
+            // If not server side, we need to filter the data
+            if (!isServerSide) {
+                filteredData = index.search(search.value, searchableColumns.value.map(s => s.name))
+                console.log(filteredData, search.value)
+            }
         }
 
         const refresh = () => {
@@ -138,14 +138,8 @@ export default defineComponent({
             onFilter,
 
             rows,
-
             refresh,
         }
     }
 })
 </script>
-<style>
-    thead tr th {
-        border: 1px solid black;
-    }
-</style>
