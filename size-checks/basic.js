@@ -1,1 +1,1 @@
-export * from '../dist/vue-ts-lib.esm-bundler'
+export * from '../dist/vue-next-datatable.esm-bundler'

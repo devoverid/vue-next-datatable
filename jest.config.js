@@ -1,13 +1,20 @@
 module.exports = {
-  // only apply on test with --coverage
-  collectCoverage: false,
+  rootDir: './',
+  collectCoverage: true,
   coveragePathIgnorePatterns: ['/node_modules/'],
   coverageReporters: ['html', 'lcov', 'text'],
-  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
-  testMatch: ['<rootDir>/__tests__/**/*.spec.ts'],
+  collectCoverageFrom: ['**/src/**/*.{js,vue}'],
+  testMatch: ['<rootDir>/test/**/*.spec.js'],
   transform: {
-    '^.+\\.tsx?$': '@sucrase/jest-plugin',
+    '^.+\\.(js)?$': '@sucrase/jest-plugin',
+    '.*\\.(vue)$': 'vue-next-jest',
   },
+  moduleNameMapper: {
+    // '@vue/test-utils': '<rootDir>/node_modules/vue-next-test-utils',
+    '^vue-jest$': '<rootDir>/node_modules/vue-next-jest',
+    vue: '<rootDir>/node_modules/vue',
+  },
+  moduleFileExtensions: ['js', 'json', 'vue'],
   globals: {
     __DEV__: true,
     __BROWSER__: true,

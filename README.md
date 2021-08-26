@@ -1,59 +1,47 @@
-# vue-ts-lib [![Build Status](https://github.com/posva/vue-ts-lib/workflows/test/badge.svg)](https://github.com/posva/vue-ts-lib/actions/workflows/test.yml) [![npm package](https://badgen.net/npm/v/vue-ts-lib)](https://www.npmjs.com/package/vue-ts-lib) [![coverage](https://badgen.net/codecov/c/github/posva/vue-ts-lib/main)](https://codecov.io/github/posva/vue-ts-lib/branch/main) [![thanks](https://badgen.net/badge/thanks/♥/pink)](https://github.com/posva/thanks)
+# vue-next-datatable
 
-> Some awesome description
+[![Build Status](https://github.com/devoverid/vue-next-datatable/workflows/test/badge.svg)](https://github.com/devoverid/vue-next-datatable/actions/workflows/test.yml)
+[![npm package](https://badgen.net/npm/v/vue-next-datatable)](https://www.npmjs.com/package/vue-next-datatable)
+[![coverage](https://badgen.net/codecov/c/github/devoverid/vue-next-datatable/main)](https://codecov.io/github/devoverid/vue-next-datatable/branch/main)
+[![thanks](https://badgen.net/badge/thanks/♥/pink)](https://github.com/devoverid/thanks)
+![GitHub last commit](https://img.shields.io/github/last-commit/devoverid/vue-next-datatable.svg)
+![GitHub repo size in bytes](https://img.shields.io/github/repo-size/badges/shields.svg)
+[![License](https://img.shields.io/github/license/devoverid/vue-next-datatable.svg)](LICENSE)
+![npm version](https://badge.fury.io/js/yarn.svg)
 
-Demo (TODO link)
 
-## Copying this project
+## Vue Next Datatable
 
-You can directly create a project from this template by using the [Use this template button](https://github.com/posva/vue-ts-lib/generate) if you plan on hosting it on GitHub.
+Vue Next Datatable is a Lightweight Datatable for Vue 3, Inspiration from DataTables.
 
-You can also use [degit](https://github.com/Rich-Harris/degit):
 
-```sh
-degit posva/vue-ts-lib
-```
+## Features
 
-### Checklist of things to do when creating a lib
+- [ ] Search
+- [ ] Filter
+- [ ] Pagination
+- [ ] Sort
+- [ ] Server-side
+- [ ] Customable Theme
+- [ ] Plugin System
 
-#### Rename the project
+## Contributing
 
-```sh
-sed -i '' 's/vue-ts-lib/vue-global-events/g' README.md package.json .github/workflows/release-tag.yml size-checks/*
-```
+You can follow the contributing guide listed [here](./.github/CONTRIBUTING.md)
 
-#### Github CI
 
-- Added by default
+## Development Guide
 
-## Renovate
+You can follow step by step for prepare the development guide in [here](.github/DEVELOPMENT.md)
 
-You must add the repository in [your settings](https://github.com/settings/installations/112211).
 
-## Remove this section
+## Contributors
 
-Remove the section _Checklist_ before releasing.
+<a href="https://github.com/devoverid/vue-next-datatable/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=devoverid/vue-next-datatable"/>
+</a>
 
-## Installation
-
-```sh
-yarn add vue-ts-lib
-# or
-npm install vue-ts-lib
-```
-
-## Usage
-
-## API
-
-## Related
 
 ## License
 
-[MIT](http://opensource.org/licenses/MIT)
-
-<div align="right">
-<sub><em>
-This project was created using the <a href="https://github.com/posva/vue-ts-lib" rel="nofollow">Vue Library template</a> by <a href="https://github.com/posva" rel="nofollow">posva</a>
-</em></sub>
-</div>
+Vue Next Datatable is open-sourced software licensed under the [MIT](http://opensource.org/licenses/MIT)
