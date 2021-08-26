@@ -35,6 +35,13 @@ You can follow the contributing guide listed [here](./.github/CONTRIBUTING.md)
 You can follow step by step for prepare the development guide in [here](.github/DEVELOPMENT.md)
 
 
+## Contributors
+
+<a href="https://github.com/devoverid/vue-next-datatable/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=devoverid/vue-next-datatable"/>
+</a>
+
+
 ## License
 
 Vue Next Datatable is open-sourced software licensed under the [MIT](http://opensource.org/licenses/MIT)
