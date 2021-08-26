@@ -43,7 +43,7 @@
     </div>
 </template>
 <script>
-import { ref, defineComponent,  onMounted, computed, onBeforeMount, inject, reactive } from 'vue'
+import { ref, defineComponent,  onMounted, computed, inject, reactive } from 'vue'
 import events from "../utils/events"
 
 import FlexSearch from "flexsearch"
