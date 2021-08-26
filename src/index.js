@@ -14,3 +14,5 @@ const install = (app, options) => {
 }
 
 export default install
+
+export { NextDatatable }

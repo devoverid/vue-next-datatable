@@ -2,23 +2,23 @@
   "name": "vue-next-datatable",
   "version": "0.1.0",
   "description": "Vue 3 Datatable",
+  "author": {
+    "name": "Ahmad Saugi"
+  },
   "main": "dist/vue-next-datatable.cjs.js",
   "unpkg": "dist/vue-next-datatable.global.js",
   "jsdelivr": "dist/vue-next-datatable.global.js",
   "module": "dist/vue-next-datatable.esm-bundler.js",
   "sideEffects": false,
-  "author": {
-    "name": "Ahmad Saugi"
-  },
   "scripts": {
     "build": "rollup -c rollup.config.js",
     "release": "bash scripts/release.sh",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1",
     "size": "size-limit",
-    "lint": "prettier -c --parser typescript \"{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
+    "lint": "prettier -c \"{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
     "lint:fix": "yarn run lint --write",
     "test:unit": "jest",
-    "test": "yarn run test:types && yarn run test:unit --coverage && yarn run build && yarn run build"
+    "test": "yarn run test:unit && yarn run build && yarn run build"
   },
   "files": [
     "dist/*.js",
@@ -35,15 +35,11 @@
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-replace": "^3.0.0",
     "@size-limit/preset-small-lib": "^5.0.2",
-    "@sucrase/jest-plugin": "^2.1.0",
-    "@types/jest": "^26.0.24",
     "@types/jsdom": "^16.2.13",
     "@vue/compiler-sfc": "^3.2.6",
-    "@vue/test-utils": "^2.0.0-rc.12",
     "codecov": "^3.8.3",
     "conventional-changelog-cli": "^2.1.1",
     "flexsearch": "^0.7.21",
-    "jest": "^26.6.3",
     "lint-staged": "^11.1.2",
     "pascalcase": "^1.0.0",
     "prettier": "^2.3.2",
@@ -54,6 +50,11 @@
     "size-limit": "^5.0.2",
     "typescript": "^4.3.5",
     "vue": "^3.1.5",
+    "jest": "^26.6.3",
+    "@sucrase/jest-plugin": "^2.1.0",
+    "@types/jest": "^26.0.24",
+    "vue-next-jest": "npm:vue-jest@^5.0.0-alpha.4",
+    "vue-next-test-utils": "npm:@vue/test-utils@^2.0.0-beta.6",
     "yorkie": "^2.0.0"
   },
   "gitHooks": {
@@ -83,6 +84,5 @@
   "bugs": {
     "url": "https://github.com/devoverid/vue-next-datatable/issues"
   },
-  "homepage": "https://github.com/devoverid/vue-next-datatable#readme",
-  "dependencies": {}
+  "homepage": "https://github.com/devoverid/vue-next-datatable#readme"
 }
