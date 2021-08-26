@@ -1,0 +1,19 @@
+{
+  "name": "docs",
+  "version": "0.0.1",
+  "description": "Documentation of vue-next-datatable",
+  "main": "index.js",
+  "authors": {
+    "name": "Devover ID",
+    "email": "devover.id@gmail.com"
+  },
+  "repository": "https://github.com/devoverid/vue-next-datatable/docs",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}
