@@ -6,6 +6,7 @@ import MyExamplePlugin from './plugins/MyExamplePlugin'
 const app = createApp(App)
 
 const options = {
+  debug: true,
   defaults: {
     perPage: 5,
     showEntriesBy: [1, 5, 10, 20, 100],

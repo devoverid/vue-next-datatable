@@ -33,24 +33,20 @@
         </tr>
       </tbody>
     </table>
-    <div class="next-datatable__pagination">
-      <ul class="next-datatable__pagination__nav">
-        <li v-for="i in pagination.totalPage" :key="i" class="next-datatable__pagination__item">
-          <a href="" @click.prevent="pagination.navigate(i)">
-            {{ i }}
-          </a>
-        </li>
-      </ul>
-    </div>
+    <NextDatatablePagination v-model:pagination="pagination" />
   </div>
 </template>
 
 <script>
+import NextDatatablePagination from './NextDatatablePagination.vue'
 import NextDatatableWrapper from '../utils/NextDatatableWrapper'
 import props from '../api/NextDatatableProps'
 import useRegisterLifeCycleComponent from '../api/useRegisterLifeCycleComponent'
 
 export default {
+  components: {
+    NextDatatablePagination
+  },
   props,
   setup(props, context) {
     const nextDatatable = new NextDatatableWrapper(props, context)

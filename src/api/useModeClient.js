@@ -19,14 +19,21 @@ export default function useModeClient(wrapper) {
     })
     // filter paginate
     const countRows = filteredDataBySearch.length
-    const currentPage = wrapper.pagination.currentPage
     const perPage = wrapper.pagination.perPage
     const totalPage = Math.ceil(filteredDataBySearch.length / perPage)
+    let currentPage = 1
+    if (wrapper.pagination.currentPage > totalPage && totalPage !== 0) {
+      currentPage = totalPage
+      wrapper.pagination.currentPage = totalPage
+    } else {
+      currentPage = wrapper.pagination.currentPage
+    }
     const filteredDataByPagination = filteredDataBySearch.slice(
       (currentPage - 1) * perPage,
       currentPage * perPage
     )
     wrapper.pagination.totalPage = totalPage
+    wrapper.pagination.totalRow = countRows
 
     //
     return filteredDataByPagination

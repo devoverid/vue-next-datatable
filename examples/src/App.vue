@@ -1,5 +1,5 @@
 <template>
-  <NextDatatable :data="data" :columns="columns" :options="{}">
+  <NextDatatable :data="data" :columns="columns" :options="{ perPage: 5 }">
     <template #row-action="{ rowData }">
       <button>Update {{ rowData.name }}</button>
       <button>Delete {{ rowData.name }}</button>
@@ -52,7 +52,7 @@ export default {
     }
 
     onMounted(() => {
-      for (let i = 0; i < 25; i++) {
+      for (let i = 0; i < 1000; i++) {
         add()
       }
     })

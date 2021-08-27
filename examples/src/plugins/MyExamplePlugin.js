@@ -1,6 +1,7 @@
 export default function install(nextDatatable, options) {
-  nextDatatable.addListener('table:init', function () {
+  const onTableInit = function () {
     console.log('MyExamplePlugin on table:init')
-  })
+  }
+  nextDatatable.addListener('table:init', onTableInit)
   console.log('My Example Plugin Installed')
 }
