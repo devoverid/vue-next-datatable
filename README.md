@@ -17,13 +17,142 @@ Vue Next Datatable is a Lightweight Datatable for Vue 3, Inspiration from DataTa
 
 ## Features
 
-- [ ] Search
-- [ ] Filter
-- [ ] Pagination
+- [x] Search
+- [x] Filter
+- [x] Pagination
 - [ ] Sort
+- [x] Plugin System
 - [ ] Server-side
 - [ ] Customable Theme
-- [ ] Plugin System
+
+## Overview
+
+### Simple Usage
+Install to vue
+```
+import { createApp } from 'vue'
+import NextDatatable from 'vue-next-datatable'
+
+const app = createApp(App)
+
+const options = { debug: false }
+app.use(NextDatatable, options)
+
+app.mount('#app')
+```
+Add to your component
+```
+<template>
+  <NextDatatable :data="data" :columns="columns" :options="{}">
+</template>
+<script>
+import { defineComponent, reactive, onMounted } from 'vue'
+
+export default {
+  setup() {
+    let data = reactive([
+      {
+        id: 1,
+        name: 'Alfian Dwi Nugraha',
+        age: 19,
+        address: 'Surabaya, East Java, Indonesia.'
+      }
+    ])
+
+    let columns = reactive([
+      {
+        name: 'id',
+        label: 'ID',
+      },
+      {
+        name: 'name',
+        label: 'Name',
+      },
+      {
+        name: 'age',
+        label: 'Age',
+      },
+      {
+        name: 'address',
+        label: 'Address',
+      },
+    ])
+
+    return {
+      data,
+      columns,
+    }
+  }
+}
+</script>
+```
+
+### Table Options
+
+| Key | Type | Description | Default Value |
+|---|---|---|---|
+| perPage | number | number of items displayed in one page | 10 |
+| showEntriesBy | array | number of items allowed to view per page | [10, 20, 50, 100] |
+
+### VueNextTable Options
+
+| Key | Type | Description | Default |
+|---|---|---|---|
+| defaults | object | table options | { ...TableOptions } |
+| debug | boolean | view emit dispatch & error handler | true |
+| plugins | array<function> | register plugins | [] |
+
+### Example Plugin
+
+Create your plugin file
+```
+# myExamplePlugin.js
+
+export default function install(nextDatatable, options) {
+  // this is function called when table:init event
+  const onTableInit = function () {
+    console.log('MyExamplePlugin on table:init')
+  }
+
+  // register function to event listener
+  nextDatatable.addListener('table:init', onTableInit)
+
+  //
+  console.log('My Example Plugin Installed')
+}
+```
+And then register your plugin in global options
+```
+import NextDatatable from 'vue-next-datatable'
+import MyExamplePlugin from './plugins/MyExamplePlugin'
+
+const app = createApp(App)
+const options = {
+  ...
+  plugins: [MyExamplePlugin],
+}
+app.use(NextDatatable, options)
+app.mount('#app')
+```
+
+### Events
+
+| Event Name         | Description                       | Parameter                              |
+|--------------------|-----------------------------------|----------------------------------------|
+| on:before-mount    | On Table Component Before Mount   |                                        |
+| on:mounted         | On Table Component Mounted        |                                        |
+| on:before-unmount  | On Table Component Before Unmount |                                        |
+| on:unmounted       | On Table Component Unmounted      |                                        |
+| on:activated       | On Table Component Before Mount   |                                        |
+| on:deactivated     | On Table Component Before Mount   |                                        |
+| wrapper:init       | On NextDatatableWrapper Construct |                                        |
+| table:init         | On Before Table Init              |                                        |
+| search:change      | When Search Value Change          | { oldValue: string, newValue: string } |
+| table:data-changed | When Data in Props Changed        | { oldValue: array, newValue: array }   |
+| table:rows-changed | When Rows Re-render               | { oldValue: array, newValue: array }   |
+
+
+
 
 ## Contributing
 
