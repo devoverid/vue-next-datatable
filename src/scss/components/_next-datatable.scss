@@ -1,0 +1,112 @@
+@use "./../variables" as *;
+
+.next-datatable {
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0,0,0,0);
+        border: 0;
+    }
+    .next-datatable__action {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+}
+
+.next-datatable__table {
+    width: 100%;
+    overflow-x: auto;
+}
+.next-datatable__table {
+    border-collapse: collapse;
+
+    &.next-datatable__table--bordered {
+        :not(caption) > * > * {
+            border: $border-width $border-type $border-color;
+        }
+    }
+
+
+    // Sizes
+    &.next-datatable__table--sm {
+        :not(caption) > * > * {
+            padding: $table-sm-cellpadding;
+        }
+    }
+    &.next-datatable__table--md {
+        :not(caption) > * > * {
+            padding: $table-md-cellpadding;
+        }
+    }
+    &.next-datatable__table--lg {
+        :not(caption) > * > * {
+            padding: $table-lg-cellpadding;
+        }
+    }
+}
+
+.next-datatable__pagination {
+    display: flex;
+    ul {
+        display: flex;
+        list-style: none;
+        gap: .5rem;
+        padding: 0;
+    }
+    li {
+        a {
+            padding: .5rem 1rem;
+            text-decoration: none;
+            color: #333;
+            display: inline-block;
+            border-radius: .3rem;
+
+            &:hover {
+                background-color: #f3f3f3;
+            }
+        }
+
+        &.active {
+            a {
+                background-color: $primary;
+                color: white;
+                box-shadow: 1px 2px 10px rgba(150,150,150,.5);
+            }
+        }
+    }
+
+    &.next-datatable__pagination--end {
+        justify-content: end;
+    }
+}
+
+
+@mixin inputSize {
+    padding: .4rem;
+    border-radius: .2rem;
+    border: 1px solid #ccc;
+    transition: box-shadow .2s, outline 0;
+}
+
+.next-datatable__filter {
+    input {
+        @include inputSize;
+
+        &:focus {
+            box-shadow: 0px 2px 10px rgb(224, 223, 228);
+            outline: none
+        }
+    }
+}
+
+.next-datatable__length {
+    select {
+        @include inputSize;
+
+    }
+}

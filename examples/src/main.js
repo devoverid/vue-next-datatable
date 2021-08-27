@@ -8,7 +8,7 @@ const app = createApp(App)
 const options = {
   defaults: {
     perPage: 5,
-    showEntriesBy: [1, 5, 10, 20, 100],
+    showEntriesBy: [5, 10, 20, 100],
   },
   plugins: [MyExamplePlugin],
 }

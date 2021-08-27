@@ -7,20 +7,23 @@
         </select>
       </div>
       <div class="next-datatable__filter">
-        <label>
-          Search :
+        <label for="next-datatable__input" class="sr-only">Search :</label>
           <input
+            id="next-datatable__input"
             type="text"
             placeholder="Search"
             v-model="search"
           />
-        </label>
       </div>
     </div>
-    <table class="next-datatable__table">
+    <table :class="{
+      'next-datatable__table': true,
+      [`next-datatable__table--${options.type}`]: true,
+      [`next-datatable__table--${options.size}`]: true,
+    }">
       <thead>
         <tr>
-          <th v-for="(column, i) in columns" :key="i">{{ column.name }}</th>
+          <th v-for="(column, i) in columns" :key="i">{{ column.label }}</th>
         </tr>
       </thead>
       <tbody>
@@ -33,10 +36,19 @@
         </tr>
       </tbody>
     </table>
-    <div class="next-datatable__pagination">
+    <div :class="{
+        'next-datatable__pagination': true,
+        [`next-datatable__pagination--${options.pagination.position}`]: true,
+        [`next-datatable__pagination--${options.pagination.type}`]: true,
+      }">
       <ul class="next-datatable__pagination__nav">
-        <li v-for="i in pagination.totalPage" :key="i" class="next-datatable__pagination__item">
-          <a href="" @click.prevent="pagination.navigate(i)">
+        <li v-for="i in pagination.totalPage" 
+            :key="i" 
+            :class="{
+              'next-datatable__pagination__item': true,
+              'active': pagination.currentPage == i
+            }">
+          <a href="#" @click.prevent="pagination.navigate(i)">
             {{ i }}
           </a>
         </li>
@@ -65,3 +77,8 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+
+@use "../scss/main.scss";
+</style>
