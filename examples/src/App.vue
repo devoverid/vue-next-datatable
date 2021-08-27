@@ -9,26 +9,11 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, onMounted } from 'vue'
 
 export default {
   setup() {
-    let data = reactive([
-      {
-        id: 1,
-        name: 'John',
-        age: 32,
-        address: 'New York No. 1',
-        action: '',
-      },
-      {
-        id: 2,
-        name: 'Tom',
-        age: 32,
-        address: 'New York No. 2',
-        action: '',
-      }
-    ])
+    let data = reactive([])
 
     let columns = reactive([
       {
@@ -65,6 +50,12 @@ export default {
         action: '',
       })
     }
+
+    onMounted(() => {
+      for (let i = 0; i < 25; i++) {
+        add()
+      }
+    })
 
     return {
       data,

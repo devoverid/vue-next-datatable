@@ -1,5 +1,8 @@
-import { ref, computed, watch, getCurrentInstance } from 'vue'
+import { ref, reactive, computed, watch, getCurrentInstance } from 'vue'
+import NextDatatablePluginManager from './NextDatatablePluginManager'
 import NextDatatableDefaultOptions from '../api/NextDatatableDefaultOptions'
+import useModeClient from '../api/useModeClient'
+import usePaginate from '../api/usePaginate'
 
 /**
  * Wrapper Fot the Datatable component
@@ -14,23 +17,31 @@ export default class NextDatatableWrapper {
   constructor(props, context) {
     this.props = props
     this.context = context
+    this.globalReferences = {}
 
     //
     this.isLoading = true
 
-    //
+    // OPTIONS
     this.vueInstance = getCurrentInstance()
     this.nextDatatableOptions =
       this.vueInstance.appContext.config.globalProperties.$nextDatatable.options
     this.isDebug = this.nextDatatableOptions.debug || true
 
+    // PLUGIN SYSTEM
+    this.listeners = []
+    this.pluginManager = new NextDatatablePluginManager(this)
+    this.pluginManager.register(this.nextDatatableOptions.plugins || [])
+    this.pluginManager.load()
+
     //
-    this.console('table', 'Init')
+    this.emit('wrapper:init')
 
     // init options
     this.initOptions()
 
     // init table
+    this.emit('table:init')
     this.initTable()
 
     //
@@ -54,7 +65,11 @@ export default class NextDatatableWrapper {
    * Init the table
    */
   initTable() {
-    this.rows = ref([])
+    // main
+    this.rows = reactive([])
+
+    // pagination
+    usePaginate(this)
 
     // search
     this.search = ref('')
@@ -65,26 +80,22 @@ export default class NextDatatableWrapper {
       this.props.columns.filter((column) => column.searchable !== false)
     )
 
+    // handle data with specific mode
     if (this.mode == 'server') {
     } else if (this.mode == 'client') {
-      this.rows = computed(() => {
-        const data = this.props.data
-        const filteredDataBySearch = data.filter((row) => {
-          let result = false
-          for (let i = 0; i < this.searchableColumns.value.length; i++) {
-            const column = this.searchableColumns.value[i]
-            const columnValue = `${row[column.name]}`.toLowerCase()
-            const included = columnValue.includes(`${this.search.value}`)
-            if (included) {
-              result = true
-              break
-            }
-          }
-          return result
-        })
-        return filteredDataBySearch
-      })
+      this.client = useModeClient(this)
+      this.rows = computed(() => this.client.rows.value)
+      watch(this.props.data, () => this.emit('table:data-changed'))
+      watch(this.rows, () => this.emit('table:rows-changed'))
     }
+  }
+
+  refresh() {
+    this.emit('on:refresh')
+  }
+
+  search() {
+    this.emit('on:search')
   }
 
   /**
@@ -93,12 +104,24 @@ export default class NextDatatableWrapper {
    * @param  {any} data=undefined - data to send
    */
   emit(name, data = undefined) {
-    if (data) {
+    this.pluginManager.emit(name, data)
+
+    // for debug mode
+    if (typeof data !== 'undefined') {
       this.console('event', `name: ${name}`)
       console.log(data)
     } else {
       this.console('event', `name: ${name}`)
     }
+  }
+
+  /**
+   * @param  {string} name - name of the event
+   * @param  {void} callback - callback function
+   * @param  {number} priority=20 - priority of the event
+   */
+  addListener(name, callback, priority = 20) {
+    this.listeners.push({ name, callback, priority })
   }
 
   /**
@@ -117,6 +140,7 @@ export default class NextDatatableWrapper {
    */
   getReferences() {
     return {
+      ...this.globalReferences,
       options: this.options,
       rows: this.rows,
       search: this.search,

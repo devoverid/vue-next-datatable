@@ -2,8 +2,8 @@
   <div class="next-datatable">
     <div class="next-datatable__action">
       <div class="next-datatable__length">
-        <select>
-          <option v-for="number in options.showEntriesBy" :key="number" value="number">{{ number }}</option>
+        <select v-model="pagination.perPage">
+          <option v-for="number in pagination.showEntriesBy" :key="number" :value="number">{{ number }}</option>
         </select>
       </div>
       <div class="next-datatable__filter">
@@ -33,6 +33,15 @@
         </tr>
       </tbody>
     </table>
+    <div class="next-datatable__pagination">
+      <ul class="next-datatable__pagination__nav">
+        <li v-for="i in pagination.totalPage" :key="i" class="next-datatable__pagination__item">
+          <a href="" @click.prevent="pagination.navigate(i)">
+            {{ i }}
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
