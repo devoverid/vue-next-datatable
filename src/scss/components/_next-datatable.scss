@@ -50,40 +50,7 @@
     }
 }
 
-.next-datatable__pagination {
-    display: flex;
-    ul {
-        display: flex;
-        list-style: none;
-        gap: .5rem;
-        padding: 0;
-    }
-    li {
-        a {
-            padding: .5rem 1rem;
-            text-decoration: none;
-            color: #333;
-            display: inline-block;
-            border-radius: .3rem;
 
-            &:hover {
-                background-color: #f3f3f3;
-            }
-        }
-
-        &.active {
-            a {
-                background-color: $primary;
-                color: white;
-                box-shadow: 1px 2px 10px rgba(150,150,150,.5);
-            }
-        }
-    }
-
-    &.next-datatable__pagination--end {
-        justify-content: end;
-    }
-}
 
 
 @mixin inputSize {

@@ -36,37 +36,24 @@
         </tr>
       </tbody>
     </table>
-    <div :class="{
-        'next-datatable__pagination': true,
-        [`next-datatable__pagination--${options.pagination.position}`]: true,
-        [`next-datatable__pagination--${options.pagination.type}`]: true,
-      }">
-      <ul class="next-datatable__pagination__nav">
-        <li v-for="i in pagination.totalPage" 
-            :key="i" 
-            :class="{
-              'next-datatable__pagination__item': true,
-              'active': pagination.currentPage == i
-            }">
-          <a href="#" @click.prevent="pagination.navigate(i)">
-            {{ i }}
-          </a>
-        </li>
-      </ul>
-    </div>
+    <NextDatatablePagination v-model:pagination="pagination" :options="options.pagination"/>
   </div>
 </template>
 
 <script>
+import NextDatatablePagination from './NextDatatablePagination.vue'
 import NextDatatableWrapper from '../utils/NextDatatableWrapper'
 import props from '../api/NextDatatableProps'
 import useRegisterLifeCycleComponent from '../api/useRegisterLifeCycleComponent'
 
 export default {
+  components: {
+    NextDatatablePagination
+  },
   props,
   setup(props, context) {
     const nextDatatable = new NextDatatableWrapper(props, context)
-
+  
     // use 
     useRegisterLifeCycleComponent(nextDatatable)
     
@@ -79,6 +66,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-@use "../scss/main.scss";
+@use "../scss/components/next-datatable";
 </style>

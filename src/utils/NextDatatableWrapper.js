@@ -3,6 +3,8 @@ import NextDatatablePluginManager from './NextDatatablePluginManager'
 import NextDatatableDefaultOptions from '../api/NextDatatableDefaultOptions'
 import useModeClient from '../api/useModeClient'
 import usePaginate from '../api/usePaginate'
+import { textChangeRangeIsUnchanged } from 'typescript'
+import merge from 'lodash.merge'
 
 /**
  * Wrapper Fot the Datatable component
@@ -15,30 +17,26 @@ export default class NextDatatableWrapper {
    * @param  {SetupContext} context - Vue component Context
    */
   constructor(props, context) {
+    //
     this.props = props
     this.context = context
     this.globalReferences = {}
 
     //
-    this.isLoading = true
+    this.isLoading = textChangeRangeIsUnchanged
 
     // OPTIONS
     this.vueInstance = getCurrentInstance()
-    this.nextDatatableOptions =
+    this.initOptions(
       this.vueInstance.appContext.config.globalProperties.$nextDatatable.options
-    this.isDebug = this.nextDatatableOptions.debug || true
+    )
 
     // PLUGIN SYSTEM
     this.listeners = []
     this.pluginManager = new NextDatatablePluginManager(this)
     this.pluginManager.register(this.nextDatatableOptions.plugins || [])
     this.pluginManager.load()
-
-    //
     this.emit('wrapper:init')
-
-    // init options
-    this.initOptions()
 
     // init table
     this.emit('table:init')
@@ -51,12 +49,24 @@ export default class NextDatatableWrapper {
   /**
    * Init options
    */
-  initOptions() {
-    this.options = Object.assign(
+  initOptions(globalOptions) {
+    // merge options
+    this.nextDatatableOptions = merge(
+      // default options
       NextDatatableDefaultOptions,
-      this.nextDatatableOptions.defaults,
+      // global options from config
+      globalOptions
+    )
+    this.nextDatatableOptions.defaults = merge(
+      // default options
+      NextDatatableDefaultOptions.defaults,
+      // local options from component props
       this.props.options
     )
+
+    // apply options
+    this.options = this.nextDatatableOptions.defaults
+    this.isDebug = this.nextDatatableOptions.debug
     this.mode = 'client'
     this.console('table', `Generated in ${this.mode} mode.`)
   }
@@ -85,8 +95,12 @@ export default class NextDatatableWrapper {
     } else if (this.mode == 'client') {
       this.client = useModeClient(this)
       this.rows = computed(() => this.client.rows.value)
-      watch(this.props.data, () => this.emit('table:data-changed'))
-      watch(this.rows, () => this.emit('table:rows-changed'))
+      watch(this.props.data, (oldValue, newValue) =>
+        this.emit('table:data-changed', { oldValue, newValue })
+      )
+      watch(this.rows, (oldValue, newValue) =>
+        this.emit('table:rows-changed', { oldValue, newValue })
+      )
     }
   }
 
@@ -107,12 +121,7 @@ export default class NextDatatableWrapper {
     this.pluginManager.emit(name, data)
 
     // for debug mode
-    if (typeof data !== 'undefined') {
-      this.console('event', `name: ${name}`)
-      console.log(data)
-    } else {
-      this.console('event', `name: ${name}`)
-    }
+    this.console('event', `name: ${name}`)
   }
 
   /**

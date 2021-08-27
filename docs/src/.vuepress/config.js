@@ -37,8 +37,8 @@ module.exports = {
     lastUpdated: false,
     nav: [
       {
-        text: 'Guide',
-        link: '/guide/',
+        text: 'Documentation',
+        link: '/introduction/',
       },
       {
         text: 'Config',
@@ -50,11 +50,11 @@ module.exports = {
       },
     ],
     sidebar: {
-      '/guide/': [
+      '/introduction/': [
         {
-          title: 'Guide',
+          title: 'Introduction',
           collapsable: false,
-          children: ['', 'installation'],
+          children: ['', 'basic-example'],
         },
       ],
     },

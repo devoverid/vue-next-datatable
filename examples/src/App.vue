@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  <NextDatatable :data="data" :columns="columns" :options="{}">
+  <NextDatatable :data="data" :columns="columns" :options="{ perPage: 5 }">
     <template #row-action="{ rowData }">
       <button>Update {{ rowData.name }}</button>
       <button>Delete {{ rowData.name }}</button>
@@ -15,9 +15,9 @@ import { defineComponent, reactive, onMounted } from 'vue'
 
 export default {
   setup() {
-    let data = reactive([])
+    const data = reactive([])
 
-    let columns = reactive([
+    const columns = [
       {
         name: 'id',
         label: 'ID',
@@ -40,7 +40,7 @@ export default {
         searchable: false,
         sortable: false,
       },
-    ])
+    ]
 
     const add = () => {
       const rand = Math.round(Math.random() * 100)
@@ -54,7 +54,7 @@ export default {
     }
 
     onMounted(() => {
-      for (let i = 0; i < 25; i++) {
+      for (let i = 0; i < 1000; i++) {
         add()
       }
     })
@@ -72,7 +72,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
 
 .container {
-  width: min(100vw, 720px);
+  width: min(100%, 720px);
   margin: 0 auto;
   font-family: 'Noto Sans JP', sans-serif;
   margin-top: 3rem;
