@@ -13,9 +13,9 @@ import { defineComponent, reactive, onMounted } from 'vue'
 
 export default {
   setup() {
-    let data = reactive([])
+    const data = reactive([])
 
-    let columns = reactive([
+    const columns = [
       {
         name: 'id',
         label: 'ID',
@@ -38,7 +38,7 @@ export default {
         searchable: false,
         sortable: false,
       },
-    ])
+    ]
 
     const add = () => {
       const rand = Math.round(Math.random() * 100)

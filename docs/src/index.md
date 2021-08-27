@@ -1,15 +1,15 @@
 ---
 home: true
 heroImage: https://v1.vuepress.vuejs.org/hero.png
-tagline: Documentation of vue-next-datatable
+tagline: a Lightweight Datatable for Vue 3
 actionText: Quick Start →
-actionLink: /guide/
+actionLink: /introduction/
 features:
-- title: Feature 1 Title
+- title: Lightweight
   details: Feature 1 Description
-- title: Feature 2 Title
+- title: Plugin System
   details: Feature 2 Description
-- title: Feature 3 Title
+- title: Integrated With Server-Side
   details: Feature 3 Description
-footer: Made with ❤️ by Devover Community
+footer: Made with ❤️ by DevoverID Community
 ---
