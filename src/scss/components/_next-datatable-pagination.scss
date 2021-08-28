@@ -35,7 +35,7 @@
             }
     
             &.datatable__pagination__item--active {
-                button {
+                & > button {
                     background-color: $pagination-button-background-active;
                     color: $pagination-button-color-active;
                     box-shadow: 1px 2px 10px rgba(150,150,150,.5);

@@ -30,7 +30,7 @@
     border-collapse: collapse;
 
     &.next-datatable__table--bordered {
-        :not(caption) > * > * {
+        th, td, tr {
             border: $border-width $border-type $border-color;
         }
     }
@@ -38,17 +38,17 @@
 
     // Sizes
     &.next-datatable__table--sm {
-        :not(caption) > * > * {
+        th, td, tr {
             padding: $table-sm-cellpadding;
         }
     }
     &.next-datatable__table--md {
-        :not(caption) > * > * {
+        th, td, tr {
             padding: $table-md-cellpadding;
         }
     }
     &.next-datatable__table--lg {
-        :not(caption) > * > * {
+        th, td, tr {
             padding: $table-lg-cellpadding;
         }
     }
