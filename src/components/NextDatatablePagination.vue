@@ -72,8 +72,6 @@ export default {
     const currentPage = computed(() => pagination.currentPage)
 
     const itemState = (pagination, i) => {
-      const centerItemInThisCase = Math.round((currentPage.value + (maxItemToShow.value / 2)))
-
       // show all if total page is less than max item to show
       if (totalPage.value <= maxItemToShow.value ) return true
 

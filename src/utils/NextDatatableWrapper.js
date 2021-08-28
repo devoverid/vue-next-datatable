@@ -21,6 +21,20 @@ export default class NextDatatableWrapper {
     this.context = context
     this.globalReferences = {}
 
+    // watch props change or not
+    this.data = reactive(props.data)
+    this.columns = reactive(props.columns)
+    watch(this.props, (props) => {
+      // emit event
+      this.emit('table:props-changed', props)
+
+      // apply hook
+      const columns = this.applyHook('table:columns', props.columns)
+      const data = this.applyHook('table:client:data', props.data)
+      this.data = reactive(data)
+      this.columns = reactive(columns)
+    })
+
     //
     this.isLoading = true
 
@@ -31,7 +45,6 @@ export default class NextDatatableWrapper {
     )
 
     // PLUGIN SYSTEM
-    this.listeners = []
     this.pluginManager = new NextDatatablePluginManager(this)
     this.pluginManager.register(this.nextDatatableOptions.plugins || [])
     this.pluginManager.load()
@@ -94,9 +107,9 @@ export default class NextDatatableWrapper {
     } else if (this.mode == 'client') {
       this.client = useModeClient(this)
       this.rows = computed(() => this.client.rows.value)
-      watch(this.props.data, (oldValue, newValue) =>
+      watch(this.data, (oldValue, newValue) => {
         this.emit('table:data-changed', { oldValue, newValue })
-      )
+      })
       watch(this.rows, (oldValue, newValue) =>
         this.emit('table:rows-changed', { oldValue, newValue })
       )
@@ -124,12 +137,33 @@ export default class NextDatatableWrapper {
   }
 
   /**
+   * Register a listener for an event
    * @param  {string} name - name of the event
    * @param  {void} callback - callback function
    * @param  {number} priority=20 - priority of the event
    */
   addListener(name, callback, priority = 20) {
-    this.listeners.push({ name, callback, priority })
+    this.pluginManager.listeners.push({ name, callback, priority })
+  }
+
+  /**
+   * Register a hook
+   * @param  {string} name - name of the event
+   * @param  {void} callback - callback function
+   * @param  {number} priority=20 - priority of the event
+   */
+  addHook(name, callback, priority = 20) {
+    this.pluginManager.hooks.push({ name, callback, priority })
+  }
+
+  /**
+   * Call all hook with the same name and return the result
+   * @param  {string} name
+   * @param  {any} value
+   * @param  {any} ...args
+   */
+  applyHook(name, value, ...args) {
+    return this.pluginManager.applyHook(name, value, ...args)
   }
 
   /**

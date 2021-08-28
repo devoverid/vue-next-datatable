@@ -1,10 +1,13 @@
 import { ref, computed, watch, getCurrentInstance } from 'vue'
 
 export default function useModeClient(wrapper) {
-  const data = computed(() => wrapper.props.data)
   const rows = computed(() => {
+    // hook
+    const rows = wrapper.applyHook('table:client:rows', wrapper.data)
+    // const rows = data.value
+
     // filter by search
-    const filteredDataBySearch = data.value.filter((row) => {
+    const filteredDataBySearch = rows.filter((row) => {
       let result = false
       for (let i = 0; i < wrapper.searchableColumns.value.length; i++) {
         const column = wrapper.searchableColumns.value[i]

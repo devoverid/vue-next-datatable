@@ -6,6 +6,8 @@ export default class NextDatatablePluginManager {
   constructor(wrapper) {
     this.registeredPlugins = []
     this.wrapper = wrapper
+    this.listeners = []
+    this.hooks = []
   }
 
   /**
@@ -40,13 +42,44 @@ export default class NextDatatablePluginManager {
    * @param  {any} data=undefined - data to send
    */
   emit(name, data = undefined) {
-    const listeners = this.wrapper.listeners
+    const listeners = this.listeners
       .filter((listener) => listener.name == name)
       .sort((a, b) => a.priority - b.priority)
     for (let i = 0; i < listeners.length; i++) {
       try {
         listeners[i].callback(data)
-      } catch (error) {}
+      } catch (error) {
+        console.log(error)
+      }
     }
+  }
+
+  /**
+   * Call all hook with the same name and return the result
+   * @param  {string} name
+   * @param  {any} value
+   * @param  {any} ...args
+   */
+  applyHook(name, value, ...args) {
+    const hooks = this.hooks
+      .filter((hook) => hook.name == name)
+      .sort((a, b) => a.priority - b.priority)
+
+    let result = undefined
+    if (Array.isArray(result)) {
+      result = [...result]
+    } else if (typeof result === 'object') {
+      result = { ...result }
+    } else {
+      result = value
+    }
+    for (let i = 0; i < hooks.length; i++) {
+      try {
+        result = hooks[i].callback(result, ...args)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    return result
   }
 }

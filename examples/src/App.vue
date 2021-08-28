@@ -3,9 +3,11 @@
   <NextDatatable :data="data" :columns="columns" :options="{ perPage: 5 }">
     <template #row-action="{ rowData }">
       <button>Update {{ rowData.id }}</button>
+      <!-- <button>{{ rowData }}</button> -->
     </template>
   </NextDatatable>
   <button @click="add">add random</button>
+  <button @click="test">test</button>
 </div>
 </template>
 
@@ -16,7 +18,7 @@ export default {
   setup() {
     const data = reactive([])
 
-    const columns = [
+    const columns = ([
       {
         name: 'id',
         label: 'ID',
@@ -39,7 +41,7 @@ export default {
         searchable: false,
         sortable: false,
       },
-    ]
+    ])
 
     const add = () => {
       const rand = Math.round(Math.random() * 100)
@@ -52,8 +54,11 @@ export default {
       })
     }
 
+    const test = () => {
+    }
+
     onMounted(() => {
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 10; i++) {
         add()
       }
     })
@@ -61,7 +66,8 @@ export default {
     return {
       data,
       columns,
-      add
+      add,
+      test
     }
   }
 }
