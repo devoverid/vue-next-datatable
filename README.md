@@ -153,10 +153,13 @@ app.mount('#app')
 | on:deactivated     | On Table Component Before Mount   |                                        |
 | wrapper:init       | On NextDatatableWrapper Construct |                                        |
 | table:init         | On Before Table Init              |                                        |
-| search:change      | When Search Value Change          | search: string                         |
-| table:data-changed | When Data in Props Changed        | data: array                            |
-| table:rows-changed | When Rows Re-render               | rows: array                            |
-| table:props-changed| When Rows Re-render               | search: object                         |
+| search:change      | When Search Value Change          | `search: string`                       |
+| table:data-changed | When Data in Props Changed        | `data: array`                          |
+| table:rows-changed | When Rows Re-render               | `rows: array`                          |
+| table:props-changed| When Rows Re-render               | `search: object`                       |
+| pagination:change  | When Pagination Value Change      | `pagination: object`                   |
+| pagination:before-navigate | When pagination navigate | `toPage: number, fromPage: number` |
+| pagination:navigated | after pagination navigate | `toPage: number, fromPage: number` |
 
 
 ### Hook
