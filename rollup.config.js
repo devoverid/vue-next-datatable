@@ -1,4 +1,5 @@
 import vue from 'rollup-plugin-vue'
+import scss from 'rollup-plugin-scss'
 
 const pkg = require('./package.json')
 
@@ -51,6 +52,14 @@ export default [
       file: pkg.module,
     },
     plugins: [vue()],
+  },
+  {
+    input: 'src/scss/main.scss',
+    output: {
+      file: pkg.module,
+      format: 'esm',
+    },
+    plugins: [scss()],
   },
   // SSR build.
   {
