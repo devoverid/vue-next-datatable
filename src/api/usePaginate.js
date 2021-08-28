@@ -3,8 +3,9 @@ import { reactive, watch } from 'vue'
 export default function usePaginate(wrapper) {
   // navigation
   const navigate = (page) => {
-    wrapper.emit('pagination:change', page)
+    wrapper.emit('pagination:before-navigate', page)
     wrapper.pagination.currentPage = page
+    wrapper.emit('pagination:navigated', page)
   }
 
   //
@@ -12,7 +13,9 @@ export default function usePaginate(wrapper) {
     currentPage: 1,
     perPage: wrapper.options.perPage,
     showEntriesBy: wrapper.options.showEntriesBy,
+    filterMode: false,
     totalRow: 0,
+    totalFilteredRow: 0,
     totalPage: 1,
     firstItemIndex: 0,
     lastItemIndex: 0,
@@ -20,9 +23,7 @@ export default function usePaginate(wrapper) {
   })
 
   // watch
-  watch(wrapper.pagination, (oldValue, newValue) =>
-    wrapper.emit('pagination:change', { oldValue, newValue })
-  )
+  watch(wrapper.pagination, (val) => wrapper.emit('pagination:change', val))
 
   // add to global ref
   wrapper.globalReferences.pagination = wrapper.pagination

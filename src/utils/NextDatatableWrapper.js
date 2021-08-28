@@ -1,9 +1,16 @@
+// lib
 import { ref, reactive, computed, watch, getCurrentInstance } from 'vue'
+import merge from 'lodash.merge'
 import NextDatatablePluginManager from './NextDatatablePluginManager'
+
+// default options
+import NextDatatableColumnDefaultOptions from '../api/NextDatatableColumnDefaultOptions'
 import NextDatatableDefaultOptions from '../api/NextDatatableDefaultOptions'
+
+// composable
+import useRegisterLifeCycleComponent from '../api/useRegisterLifeCycleComponent'
 import useModeClient from '../api/useModeClient'
 import usePaginate from '../api/usePaginate'
-import merge from 'lodash.merge'
 
 /**
  * Wrapper Fot the Datatable component
@@ -19,6 +26,9 @@ export default class NextDatatableWrapper {
     //
     this.props = props
     this.context = context
+    this.filters = reactive({
+      search: '',
+    })
     this.globalReferences = {}
 
     // watch props change or not
@@ -29,22 +39,28 @@ export default class NextDatatableWrapper {
       this.emit('table:props-changed', props)
 
       // apply hook
-      const columns = this.applyHook('table:columns', props.columns)
+      const columns = this.applyHook(
+        'table:columns',
+        this.initColumns(props.columns)
+      )
       const data = this.applyHook('table:client:data', props.data)
       this.data = reactive(data)
       this.columns = reactive(columns)
     })
 
-    //
+    // Set loading true
     this.isLoading = true
 
-    // OPTIONS
+    // Get options
     this.vueInstance = getCurrentInstance()
     this.initOptions(
       this.vueInstance.appContext.config.globalProperties.$nextDatatable.options
     )
 
-    // PLUGIN SYSTEM
+    // Register lifecycle component to events
+    useRegisterLifeCycleComponent(this)
+
+    // Plugin Manager
     this.pluginManager = new NextDatatablePluginManager(this)
     this.pluginManager.register(this.nextDatatableOptions.plugins || [])
     this.pluginManager.load()
@@ -56,6 +72,16 @@ export default class NextDatatableWrapper {
 
     //
     this.isLoading = false
+  }
+
+  initColumns(columns) {
+    const result = []
+    for (let i = 0; i < columns.length; i++) {
+      const col = merge({ ...NextDatatableColumnDefaultOptions }, columns[i])
+      result.push(col)
+    }
+    console.log(result)
+    return result
   }
 
   /**
@@ -94,8 +120,11 @@ export default class NextDatatableWrapper {
     usePaginate(this)
 
     // search
-    this.search = ref('')
-    watch(this.search, (val) => this.emit('search:change', val))
+    this.filters.search = ''
+    watch(
+      () => this.filters.search,
+      (val) => this.emit('search:change', val)
+    )
     this.searchableColumns = computed(() =>
       this.props.columns.filter((column) => column.searchable !== false)
     )
@@ -110,12 +139,13 @@ export default class NextDatatableWrapper {
     }
   }
 
-  refresh() {
-    this.emit('on:refresh')
-  }
-
-  search() {
+  /**
+   * Search
+   * @param  {} value - Search value on the table
+   */
+  search(value) {
     this.emit('on:search')
+    this.filters.search = value
   }
 
   /**
@@ -179,7 +209,7 @@ export default class NextDatatableWrapper {
       ...this.globalReferences,
       options: this.options,
       rows: this.rows,
-      search: this.search,
+      filters: this.filters,
     }
   }
 }

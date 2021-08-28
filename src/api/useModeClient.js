@@ -11,8 +11,9 @@ export default function useModeClient(wrapper) {
       let result = false
       for (let i = 0; i < wrapper.searchableColumns.value.length; i++) {
         const column = wrapper.searchableColumns.value[i]
-        const columnValue = `${row[column.name]}`.toLowerCase()
-        const included = columnValue.includes(`${wrapper.search.value}`)
+        const columnName = `${column.name}`.toLowerCase()
+        const columnValue = `${row[columnName]}`.toLowerCase()
+        const included = columnValue.includes(`${wrapper.filters.search}`)
         if (included) {
           result = true
           break
@@ -20,6 +21,8 @@ export default function useModeClient(wrapper) {
       }
       return result
     })
+    wrapper.pagination.filterMode = filteredDataBySearch.length != rows.length
+
     // filter paginate
     const countRows = filteredDataBySearch.length
     const perPage = wrapper.pagination.perPage
@@ -36,7 +39,8 @@ export default function useModeClient(wrapper) {
       currentPage * perPage
     )
     wrapper.pagination.totalPage = totalPage
-    wrapper.pagination.totalRow = countRows
+    wrapper.pagination.totalRow = rows.length
+    wrapper.pagination.totalFilteredRow = countRows
     wrapper.pagination.firstItemIndex = (currentPage - 1) * perPage + 1
     wrapper.pagination.lastItemIndex =
       currentPage * perPage > countRows ? countRows : currentPage * perPage

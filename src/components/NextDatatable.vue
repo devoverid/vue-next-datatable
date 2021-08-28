@@ -1,20 +1,8 @@
 <template>
   <div class="next-datatable">
     <div class="next-datatable__action">
-      <div class="next-datatable__length">
-        <select v-model="pagination.perPage">
-          <option v-for="number in pagination.showEntriesBy" :key="number" :value="number">{{ number }}</option>
-        </select>
-      </div>
-      <div class="next-datatable__filter">
-        <label for="next-datatable__input" class="sr-only">Search :</label>
-          <input
-            id="next-datatable__input"
-            type="text"
-            placeholder="Search"
-            v-model="search"
-          />
-      </div>
+      <NextDatatableActionLength :pagination="pagination" />
+      <NextDatatableActionFilter :pagination="pagination" v-model:search="filters.search" />
     </div>
     <table :class="{
       'next-datatable__table': true,
@@ -37,13 +25,15 @@
       </tbody>
     </table>
     <div class="next-datatable__footer_action">
-      <NextDatatableInfo v-model:pagination="pagination" />
+      <NextDatatableInfo :pagination="pagination" />
       <NextDatatablePagination v-model:pagination="pagination" :options="options.pagination" />
     </div>
   </div>
 </template>
 
 <script>
+import NextDatatableActionLength from './NextDatatableActionLength.vue'
+import NextDatatableActionFilter from './NextDatatableActionFilter.vue'
 import NextDatatableInfo from './NextDatatableInfo.vue'
 import NextDatatablePagination from './NextDatatablePagination.vue'
 import NextDatatableWrapper from '../utils/NextDatatableWrapper'
@@ -51,6 +41,8 @@ import props from '../api/NextDatatableProps'
 
 export default {
   components: {
+    NextDatatableActionLength,
+    NextDatatableActionFilter,
     NextDatatableInfo,
     NextDatatablePagination
   },

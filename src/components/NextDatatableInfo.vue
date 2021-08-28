@@ -2,7 +2,14 @@
     <div class="next-datatable__info">
       Showing {{ pagination.firstItemIndex }}
       to {{ pagination.lastItemIndex }} 
-      of {{ pagination.totalRow }} entries
+      of {{ pagination.totalFilteredRow }} entries
+      <template v-if="pagination.filterMode">
+        (
+        filtered
+        from {{ pagination.totalRow }} 
+        total entries
+        )
+      </template>
     </div>
 </template>
 
@@ -14,8 +21,5 @@ export default {
       required: true,
     },
   },
-  setup() {
-      return {}
-  }
 }
 </script>
