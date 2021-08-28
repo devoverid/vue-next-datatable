@@ -41,12 +41,12 @@ app.use(NextDatatable, options)
 app.mount('#app')
 ```
 Add to your component
-```
+```html
 <template>
   <NextDatatable :data="data" :columns="columns" :options="{}">
 </template>
 <script>
-import { defineComponent, reactive, onMounted } from 'vue'
+import { reactive } from 'vue'
 
 export default {
   setup() {
@@ -59,7 +59,7 @@ export default {
       }
     ])
 
-    let columns = reactive([
+    let columns = [
       {
         name: 'id',
         label: 'ID',
@@ -76,7 +76,7 @@ export default {
         name: 'address',
         label: 'Address',
       },
-    ])
+    ]
 
     return {
       data,
@@ -93,6 +93,12 @@ export default {
 |---|---|---|---|
 | perPage | number | number of items displayed in one page | 10 |
 | showEntriesBy | array | number of items allowed to view per page | [10, 20, 50, 100] |
+| type | string | type table style | 'bordered' |
+| size | string | size of table | 'md' |
+| pagination | object | pagination option | {...} |
+| pagination.position | string | position pagination | 'end' |
+| pagination.type | string | type pagination style | 'separate' |
+| pagination.activeColor | string | button color on active | '#185ADB' |
 
 ### VueNextTable Options
 
@@ -147,9 +153,19 @@ app.mount('#app')
 | on:deactivated     | On Table Component Before Mount   |                                        |
 | wrapper:init       | On NextDatatableWrapper Construct |                                        |
 | table:init         | On Before Table Init              |                                        |
-| search:change      | When Search Value Change          | { oldValue: string, newValue: string } |
-| table:data-changed | When Data in Props Changed        | { oldValue: array, newValue: array }   |
-| table:rows-changed | When Rows Re-render               | { oldValue: array, newValue: array }   |
+| search:change      | When Search Value Change          | search: string                         |
+| table:data-changed | When Data in Props Changed        | data: array                            |
+| table:rows-changed | When Rows Re-render               | rows: array                            |
+| table:props-changed| When Rows Re-render               | search: object                         |
+
+
+### Hook
+
+| Hook Name         | Description                                         | Parameter      |
+|-------------------|-----------------------------------------------------|----------------|
+| table:columns     | Return colums data when props change                | columns: array |
+| table:client:data | Return colums data when props change in client mode | data: array    |
+| table:client:rows | For render a row when data changed in client mode   | rows: array    |
 
 
 
@@ -157,11 +173,6 @@ app.mount('#app')
 ## Contributing
 
 You can follow the contributing guide listed [here](./.github/CONTRIBUTING.md)
-
-
-## Development Guide
-
-You can follow step by step for prepare the development guide in [here](.github/DEVELOPMENT.md)
 
 
 ## Contributors

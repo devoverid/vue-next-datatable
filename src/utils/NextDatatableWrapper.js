@@ -95,9 +95,7 @@ export default class NextDatatableWrapper {
 
     // search
     this.search = ref('')
-    watch(this.search, (oldValue, newValue) =>
-      this.emit('search:change', { oldValue, newValue })
-    )
+    watch(this.search, (val) => this.emit('search:change', val))
     this.searchableColumns = computed(() =>
       this.props.columns.filter((column) => column.searchable !== false)
     )
@@ -107,12 +105,8 @@ export default class NextDatatableWrapper {
     } else if (this.mode == 'client') {
       this.client = useModeClient(this)
       this.rows = computed(() => this.client.rows.value)
-      watch(this.data, (oldValue, newValue) => {
-        this.emit('table:data-changed', { oldValue, newValue })
-      })
-      watch(this.rows, (oldValue, newValue) =>
-        this.emit('table:rows-changed', { oldValue, newValue })
-      )
+      watch(this.data, (val) => this.emit('table:data-changed', val))
+      watch(this.rows, (val) => this.emit('table:rows-changed', val))
     }
   }
 
