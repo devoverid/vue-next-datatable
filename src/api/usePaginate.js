@@ -3,9 +3,10 @@ import { reactive, watch } from 'vue'
 export default function usePaginate(wrapper) {
   // navigation
   const navigate = (page) => {
-    wrapper.emit('pagination:before-navigate', page)
+    const pagination = { ...wrapper.pagination }
+    wrapper.emit('pagination:before-navigate', page, pagination.currentPage)
     wrapper.pagination.currentPage = page
-    wrapper.emit('pagination:navigated', page)
+    wrapper.emit('pagination:navigated', page, pagination.currentPage)
   }
 
   //

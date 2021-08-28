@@ -41,13 +41,13 @@ export default class NextDatatablePluginManager {
    * @param  {string} name - name of the event
    * @param  {any} data=undefined - data to send
    */
-  emit(name, data = undefined) {
+  emit(name, ...args) {
     const listeners = this.listeners
       .filter((listener) => listener.name == name)
       .sort((a, b) => a.priority - b.priority)
     for (let i = 0; i < listeners.length; i++) {
       try {
-        listeners[i].callback(data)
+        listeners[i].callback(...args)
       } catch (error) {
         console.log(error)
       }

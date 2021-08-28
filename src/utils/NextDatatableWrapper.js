@@ -80,7 +80,6 @@ export default class NextDatatableWrapper {
       const col = merge({ ...NextDatatableColumnDefaultOptions }, columns[i])
       result.push(col)
     }
-    console.log(result)
     return result
   }
 
@@ -147,14 +146,13 @@ export default class NextDatatableWrapper {
     this.emit('on:search')
     this.filters.search = value
   }
-
   /**
    * Emit an event
-   * @param  {string} name - name of the event
-   * @param  {any} data=undefined - data to send
+   * @param  {string} name
+   * @param  {} ...args
    */
-  emit(name, data = undefined) {
-    this.pluginManager.emit(name, data)
+  emit(name, ...args) {
+    this.pluginManager.emit(name, ...args)
 
     // for debug mode
     this.console('event', `name: ${name}`)
