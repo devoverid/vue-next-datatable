@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+
 import NextDatatable from '../../src'
+import '../../src/scss/main.scss'
 import MyExamplePlugin from './plugins/MyExamplePlugin'
 
 const app = createApp(App)

@@ -1,7 +1,7 @@
 export default class NextDatatablePluginManager {
   /**
    * Register a listener
-   * @param  {} wrapper
+   * @param  {NextDatatableWrapper} wrapper
    */
   constructor(wrapper) {
     this.registeredPlugins = []

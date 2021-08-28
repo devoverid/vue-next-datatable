@@ -36,11 +36,15 @@
         </tr>
       </tbody>
     </table>
-    <NextDatatablePagination v-model:pagination="pagination" :options="options.pagination"/>
+    <div class="next-datatable__footer_action">
+      <NextDatatableInfo v-model:pagination="pagination" />
+      <NextDatatablePagination v-model:pagination="pagination" :options="options.pagination" />
+    </div>
   </div>
 </template>
 
 <script>
+import NextDatatableInfo from './NextDatatableInfo.vue'
 import NextDatatablePagination from './NextDatatablePagination.vue'
 import NextDatatableWrapper from '../utils/NextDatatableWrapper'
 import props from '../api/NextDatatableProps'
@@ -48,6 +52,7 @@ import useRegisterLifeCycleComponent from '../api/useRegisterLifeCycleComponent'
 
 export default {
   components: {
+    NextDatatableInfo,
     NextDatatablePagination
   },
   props,
@@ -64,7 +69,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@use "../scss/components/next-datatable";
-</style>

@@ -34,6 +34,9 @@ export default function useModeClient(wrapper) {
     )
     wrapper.pagination.totalPage = totalPage
     wrapper.pagination.totalRow = countRows
+    wrapper.pagination.firstItemIndex = (currentPage - 1) * perPage + 1
+    wrapper.pagination.lastItemIndex =
+      currentPage * perPage > countRows ? countRows : currentPage * perPage
 
     //
     return filteredDataByPagination

@@ -14,6 +14,8 @@ export default function usePaginate(wrapper) {
     showEntriesBy: wrapper.options.showEntriesBy,
     totalRow: 0,
     totalPage: 1,
+    firstItemIndex: 0,
+    lastItemIndex: 0,
     navigate,
   })
 

@@ -3,7 +3,6 @@ import NextDatatablePluginManager from './NextDatatablePluginManager'
 import NextDatatableDefaultOptions from '../api/NextDatatableDefaultOptions'
 import useModeClient from '../api/useModeClient'
 import usePaginate from '../api/usePaginate'
-import { textChangeRangeIsUnchanged } from 'typescript'
 import merge from 'lodash.merge'
 
 /**
@@ -23,7 +22,7 @@ export default class NextDatatableWrapper {
     this.globalReferences = {}
 
     //
-    this.isLoading = textChangeRangeIsUnchanged
+    this.isLoading = true
 
     // OPTIONS
     this.vueInstance = getCurrentInstance()

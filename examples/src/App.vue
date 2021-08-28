@@ -2,8 +2,7 @@
 <div class="container">
   <NextDatatable :data="data" :columns="columns" :options="{ perPage: 5 }">
     <template #row-action="{ rowData }">
-      <button>Update {{ rowData.name }}</button>
-      <button>Delete {{ rowData.name }}</button>
+      <button>Update {{ rowData.id }}</button>
     </template>
   </NextDatatable>
   <button @click="add">add random</button>
@@ -11,7 +10,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, onMounted } from 'vue'
+import { reactive, onMounted } from 'vue'
 
 export default {
   setup() {
@@ -54,7 +53,7 @@ export default {
     }
 
     onMounted(() => {
-      for (let i = 0; i < 1000; i++) {
+      for (let i = 0; i < 100; i++) {
         add()
       }
     })

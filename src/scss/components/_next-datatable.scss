@@ -1,6 +1,10 @@
 @use "./../variables" as *;
 
 .next-datatable {
+    position: relative;
+    clear: both;
+    overflow: hidden;
+
     .sr-only {
         position: absolute;
         width: 1px;
@@ -14,7 +18,7 @@
     .next-datatable__action {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 1rem;
+        margin-bottom: .5rem;
     }
 }
 
@@ -49,8 +53,6 @@
         }
     }
 }
-
-
 
 
 @mixin inputSize {
