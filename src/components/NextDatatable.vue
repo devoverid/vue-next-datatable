@@ -48,7 +48,6 @@ import NextDatatableInfo from './NextDatatableInfo.vue'
 import NextDatatablePagination from './NextDatatablePagination.vue'
 import NextDatatableWrapper from '../utils/NextDatatableWrapper'
 import props from '../api/NextDatatableProps'
-import useRegisterLifeCycleComponent from '../api/useRegisterLifeCycleComponent'
 
 export default {
   components: {
@@ -58,10 +57,7 @@ export default {
   props,
   setup(props, context) {
     const nextDatatable = new NextDatatableWrapper(props, context)
-  
-    // use 
-    useRegisterLifeCycleComponent(nextDatatable)
-    
+
     return {
       nextDatatable,
       ...nextDatatable.getReferences()
