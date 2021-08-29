@@ -22,6 +22,10 @@
     }
 }
 
+.next-datatable__table__wrapper {
+    position: relative;
+    overflow: hidden;
+}
 .next-datatable__table {
     width: 100%;
     overflow-x: auto;

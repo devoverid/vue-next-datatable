@@ -2,6 +2,9 @@ import { ref, computed, watch, getCurrentInstance } from 'vue'
 
 export default function useModeClient(wrapper) {
   const rows = computed(() => {
+    //
+    wrapper.isLoading.value = true
+
     // hook
     const rows = wrapper.applyHook('table:client:rows', wrapper.data)
     // const rows = data.value
@@ -44,6 +47,9 @@ export default function useModeClient(wrapper) {
     wrapper.pagination.firstItemIndex = (currentPage - 1) * perPage + 1
     wrapper.pagination.lastItemIndex =
       currentPage * perPage > countRows ? countRows : currentPage * perPage
+
+    //
+    wrapper.isLoading.value = false
 
     //
     return filteredDataByPagination
