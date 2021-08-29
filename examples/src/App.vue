@@ -3,7 +3,6 @@
   <NextDatatable :data="data" :columns="columns" :options="{ perPage: 5 }">
     <template #row-action="{ rowData }">
       <button>Update {{ rowData.id }}</button>
-      <!-- <button>{{ rowData }}</button> -->
     </template>
   </NextDatatable>
   <button @click="add">add random</button>
@@ -13,6 +12,7 @@
 
 <script>
 import { reactive, onMounted } from 'vue'
+import Status from './components/Status.vue'
 
 export default {
   setup() {
@@ -34,6 +34,11 @@ export default {
       {
         name: 'address',
         label: 'Address',
+      },
+      {
+        name: 'status',
+        label: 'Status',
+        component: Status,
       },
       {
         name: 'action',
@@ -58,7 +63,7 @@ export default {
     }
 
     onMounted(() => {
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 1000; i++) {
         add()
       }
     })

@@ -49,7 +49,7 @@ export default class NextDatatableWrapper {
     })
 
     // Set loading true
-    this.isLoading = true
+    this.isLoading = ref(true)
 
     // Get options
     this.vueInstance = getCurrentInstance()
@@ -71,13 +71,21 @@ export default class NextDatatableWrapper {
     this.initTable()
 
     //
-    this.isLoading = false
+    this.isLoading.value = false
   }
 
   initColumns(columns) {
     const result = []
     for (let i = 0; i < columns.length; i++) {
-      const col = merge({ ...NextDatatableColumnDefaultOptions }, columns[i])
+      let col = merge({ ...NextDatatableColumnDefaultOptions }, columns[i])
+
+      // if colomn has component
+      if (typeof col.component !== 'undefined') {
+        col.searchable = false
+        col.sortable = false
+      }
+
+      //
       result.push(col)
     }
     return result
@@ -208,6 +216,7 @@ export default class NextDatatableWrapper {
       options: this.options,
       rows: this.rows,
       filters: this.filters,
+      isLoading: this.isLoading,
     }
   }
 }
