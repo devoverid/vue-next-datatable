@@ -7,7 +7,17 @@ module.exports = {
     themeConfig: {
       logo: 'https://vuejs.org/images/logo.png',
       sidebarDepth: 3,
-      sidebar: [
+      navbar: [
+        {
+            text: 'Documentation',
+            link: '/guide/getting-started',
+        },
+        {
+            text: 'Github',
+            link: 'https://github.com/devoverid/vue-next-datatable',
+        },
+    ],
+    sidebar: [
           {
               text: "Guide",
               children: [
@@ -28,6 +38,10 @@ module.exports = {
           }
       ]
     },
+
+    plugins: [
+        '@vuepress/plugin-search',
+    ]
 
   }
   
