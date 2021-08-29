@@ -15,7 +15,7 @@ const options = {
 app.use(NextDatatable, options)
 ```
 
-You can use options in a single component usage. This will override the default options that you passed when installed via `app.use()`
+You can use options in a specific component as well. This will override the default options that you installed via `app.use()`
 
 ```vue
 <template>

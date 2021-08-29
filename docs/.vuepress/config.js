@@ -40,7 +40,16 @@ module.exports = {
     },
 
     plugins: [
-        '@vuepress/plugin-search',
+        [
+            '@vuepress/plugin-search',
+            {
+                locales: {
+                    '/': {
+                        placeholder: 'Search',
+                    },
+                }
+            }
+        ],
     ]
 
   }

@@ -4,7 +4,7 @@
   "description": "Vue Next Datatable documentation",
   "main": "index.js",
   "repository": "https://github.com/devoverid/vue-next-datatable",
-  "author": "zuramai <ahmadsaugigis@yahoo.com>",
+  "author": "zuramai",
   "license": "MIT",
   "devDependencies": {
     "@vuepress/plugin-search": "^1.8.2",
