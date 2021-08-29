@@ -1,5 +1,5 @@
 <template>
-  <div class="next-datatable">
+  <div class="next-datatable" :style="options.theme.styles">
     <div class="next-datatable__action">
       <NextDatatableActionLength :pagination="pagination" />
       <NextDatatableActionFilter :pagination="pagination" v-model:search="filters.search" />

@@ -111,6 +111,13 @@ export default class NextDatatableWrapper {
 
     // apply options
     this.options = this.nextDatatableOptions.defaults
+
+    // find and apply theme
+    this.options.theme =
+      this.nextDatatableOptions.themes.find(
+        (theme) => theme.name == this.options.theme
+      ) || null
+    console.log(this.options.theme)
     this.isDebug = this.nextDatatableOptions.debug
     this.mode = 'client'
     this.console('table', `Generated in ${this.mode} mode.`)
