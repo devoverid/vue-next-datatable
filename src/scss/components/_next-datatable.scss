@@ -1,6 +1,8 @@
 @use "./../variables" as *;
 
 .next-datatable {
+    @include variables;
+
     position: relative;
     clear: both;
     overflow: hidden;
@@ -35,7 +37,7 @@
 
     &.next-datatable__table--bordered {
         th, td, tr {
-            border: $border-width $border-type $border-color;
+            border: var(--border-width) var(--border-type) var(--border-color);
         }
     }
 
@@ -43,17 +45,17 @@
     // Sizes
     &.next-datatable__table--sm {
         th, td, tr {
-            padding: $table-sm-cellpadding;
+            padding: var(--table-sm-cellpadding);
         }
     }
     &.next-datatable__table--md {
         th, td, tr {
-            padding: $table-md-cellpadding;
+            padding: var(--table-md-cellpadding);
         }
     }
     &.next-datatable__table--lg {
         th, td, tr {
-            padding: $table-lg-cellpadding;
+            padding: var(--table-lg-cellpadding);
         }
     }
 }

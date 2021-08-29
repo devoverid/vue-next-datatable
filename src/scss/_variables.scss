@@ -2,25 +2,28 @@
 // Next Datatable Variables
 // -----------------------------
 
-// Main Theme Colors
-$primary:           #1687A7 !default;
-$text-color:        #333 !default;
-$text-color-light:  rgb(221, 221, 221) !default;
 
-// Border
-$border-color:     #dddee0 !default;
-$border-type:       solid !default;
-$border-width:      1px !default;
-
-// Sizes
-$table-sm-cellpadding: .25rem !default;
-$table-md-cellpadding:  .5rem .5rem !default;
-$table-lg-cellpadding:  1rem !default;
-
-// Pagination
-$pagination-button-color: $text-color !default;
-$pagination-button-color-active: #f5f5f5 !default;
-$pagination-button-color-disabled:rgb(116, 116, 116)3 !default;
-$pagination-button-background: #f5f5f5 !default;
-$pagination-button-background-active: $primary !default;
-$pagination-button-background-hover: #ebebeb !default;
+@mixin variables {
+    // Main Theme Colors
+    --primary:           #1687A7;
+    --text-color:        #333;
+    --text-color-light:  rgb(221, 221, 221);
+    
+    // Border
+    --border-color:     #dddee0;
+    --border-type:       solid;
+    --border-width:      1px;
+    
+    // Sizes
+    --table-sm-cellpadding: .25rem;
+    --table-md-cellpadding:  .5rem .5rem;
+    --table-lg-cellpadding:  1rem;
+    
+    // Pagination
+    --pagination-button-color:              var(--text-color);
+    --pagination-button-color-active:       #f5f5f5;
+    --pagination-button-color-disabled:     rgb(116, 116, 116);
+    --pagination-button-background:         #f5f5f5;
+    --pagination-button-background-active:  var( --primary);
+    --pagination-button-background-hover:   #ebebeb;
+}

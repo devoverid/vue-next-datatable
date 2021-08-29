@@ -4,7 +4,7 @@
     float: left;
     clear: both;
     padding-top: .75rem;
-    color: $text-color;
+    color: var(--text-color);
     font-size: 12px;
 
     @media screen and (max-width: 767px) {
