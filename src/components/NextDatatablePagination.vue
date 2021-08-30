@@ -13,32 +13,37 @@
           Prev
         </button>
       </li>
-      <template v-for="i in pagination.totalPage" :key="i">
-        <li
-            v-if="itemState(pagination, i) === true"
-            class="next-datatable__pagination__item"
-            :class="{
-              'datatable__pagination__item--active': i === pagination.currentPage,
-            }"
-          >
-          <button
-            :disabled="pagination.currentPage === i" @click.prevent="pagination.navigate(i)">
-            {{ i }}
-          </button>
-        </li>
-        <li
-            v-if="itemState(pagination, i) === 'dot'"
-            class="next-datatable__pagination__item next-datatable__pagination__item__dot"
-          >
-          <button :disabled="true">...</button>
-        </li>
-        <li
-            v-if="itemState(pagination, i) === 'a'"
-            class="next-datatable__pagination__item next-datatable__pagination__item__dot"
-          >
-          <button :disabled="true">{{ i }} - {{ pagination.currentPage }}</button>
-        </li>
+      
+      <template v-if="options.type.toLowerCase() != 'minimal'">
+          <template v-for="i in pagination.totalPage" :key="i" >
+          <li
+              v-if="options.type == 'extended' && itemState(pagination, i) === true"
+              class="next-datatable__pagination__item"
+              :class="{
+                'datatable__pagination__item--active': i === pagination.currentPage,
+              }"
+            >
+            <button
+              :disabled="pagination.currentPage === i" @click.prevent="pagination.navigate(i)">
+              {{ i }}
+            </button>
+          </li>
+          <li
+              v-if="itemState(pagination, i) === 'dot'"
+              class="next-datatable__pagination__item next-datatable__pagination__item__dot"
+            >
+            <button :disabled="true">...</button>
+          </li>
+          <li 
+              v-if="options.type == 'extended' &&itemState(pagination, i) === 'a'"
+              class="next-datatable__pagination__item next-datatable__pagination__item__dot"
+            >
+            <button :disabled="true">{{ i }} - {{ pagination.currentPage }}</button>
+          </li>
+        </template>
       </template>
+
+      <!-- Start: Next Button -->
       <li class="next-datatable__pagination__item next-datatable__pagination__item__next">
         <button
           :disabled="pagination.currentPage >= pagination.totalPage"
@@ -47,6 +52,8 @@
           Next
         </button>
       </li>
+      <!-- End: Next Button -->
+
     </ul>
   </div>
 </template>

@@ -19,6 +19,9 @@ const options = {
     theme: 'minimalist',
     perPage: 5,
     showEntriesBy: [5, 10, 20, 100],
+    pagination: {
+      type: 'extended',
+    },
   },
   plugins: [MyExamplePlugin, LineNumber],
   themes: [
@@ -26,7 +29,8 @@ const options = {
       name: 'minimalist',
       styles: {
         '--theme-primary': 'rgb(58, 166, 117)',
-        '--pagination-button-color-disabled': '#8c8c8c',
+        '--pagination-button-color-disabled': '#ccc',
+        '--pagination-button-bg-disabled': 'transparent',
       },
     },
   ],

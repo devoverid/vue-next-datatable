@@ -5,15 +5,15 @@
 
 @mixin variables {
     // Main Theme Colors
-    --theme-primary:           #1687A7;
+    --theme-primary:    #1687A7;
 
     --text-color:        #333;
     --text-color-light:  rgb(221, 221, 221);
     
     // Border
-    --border-color:     #dddee0;
-    --border-type:       solid;
-    --border-width:      1px;
+    --border-color:   #dddee0;
+    --border-type:      solid;
+    --border-width:     1px;
     
     // Sizes
     --table-sm-cellpadding: .25rem;
@@ -23,7 +23,8 @@
     // Pagination
     --pagination-button-color:              var(--text-color);
     --pagination-button-color-active:       #f5f5f5;
-    --pagination-button-color-disabled:     rgb(116, 116, 116);
+    --pagination-button-bg-disabled:        transparent;
+    --pagination-button-color-disabled:     rgb(160, 160, 160);
     --pagination-button-background:         #f5f5f5;
     --pagination-button-background-active:  var( --theme-primary);
     --pagination-button-background-hover:   #ebebeb;

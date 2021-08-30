@@ -8,7 +8,7 @@ export default {
     size: 'md',
     pagination: {
       position: 'end',
-      type: 'separate',
+      type: 'extended',
       activeColor: '#185ADB',
     },
   },
