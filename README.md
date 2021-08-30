@@ -144,6 +144,8 @@ app.mount('#app')
 
 ### Events
 
+#### Component
+
 | Event Name         | Description                       | Parameter                              |
 |--------------------|-----------------------------------|----------------------------------------|
 | on:before-mount    | On Table Component Before Mount   |                                        |
@@ -153,14 +155,29 @@ app.mount('#app')
 | on:activated       | On Table Component Before Mount   |                                        |
 | on:deactivated     | On Table Component Before Mount   |                                        |
 | wrapper:init       | On NextDatatableWrapper Construct |                                        |
-| table:init         | On Before Table Init              |                                        |
-| search:change      | When Search Value Change          | `search: string`                       |
-| table:data-changed | When Data in Props Changed        | `data: array`                          |
-| table:rows-changed | When Rows Re-render               | `rows: array`                          |
-| table:props-changed| When Rows Re-render               | `search: object`                       |
+
+#### Pagination
+| Event Name         | Description                       | Parameter                              |
+|--------------------|-----------------------------------|----------------------------------------|
 | pagination:change  | When Pagination Value Change      | `pagination: object`                   |
 | pagination:before-navigate | When pagination navigate | `toPage: number, fromPage: number` |
 | pagination:navigated | after pagination navigate | `toPage: number, fromPage: number` |
+
+#### Filters
+| Event Name         | Description                       | Parameter                              |
+|--------------------|-----------------------------------|----------------------------------------|
+| search:change      | When Search Value Change          | `search: string`                       |
+
+#### Table
+| Event Name         | Description                       | Parameter                              |
+|--------------------|-----------------------------------|----------------------------------------|
+| table:init         | On Before Table Init              |                                        |
+| table:data-changed | When Data in Props Changed        | `data: array`                          |
+| table:rows-changed | When Rows Re-render               | `rows: array`                          |
+| table:props-changed| When Rows Re-render               | `search: object`                       |
+| table:thead:column:click | when table head column click | `column: object` |
+| table:tfood:column:click | when table foot column click | `column: object` |
+| table:tbody:column:click | when table body column click | `row: object`, `column: object` |
 
 
 ## Contributing

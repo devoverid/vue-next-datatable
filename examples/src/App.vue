@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  <NextDatatable ref="table" :data="data" :columns="columns" :options="{ perPage: 5 }">
+  <NextDatatable ref="table" :data="data" :columns="columns" :options="{ perPage: 5, sort: { mode: 'multiple' } }">
     <template #row-action="{ rowData }">
       <button>Update {{ rowData.id }}</button>
     </template>

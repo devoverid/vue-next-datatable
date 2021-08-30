@@ -36,7 +36,7 @@
         <!-- nextdatatable:table-body -->
         <tbody>
           <tr v-for="(row, i) in rows" :key="i">
-            <td v-for="(column, j) in renderedColumns" :key="j">
+            <td v-for="(column, j) in renderedColumns" :key="j" @click="nextdatatable.emit('table:tbody:column:click', row, column)">
               <slot :name="`row-${column.name}`" :rowData="row" :column="column">
                 <template v-if="column.component">
                   <component
@@ -59,7 +59,7 @@
             <th
               v-for="(column, i) in renderedColumns"
               :key="i"
-              @click="nextdatatable.emit('table:tfoot:column:click')"
+              @click="nextdatatable.emit('table:tfoot:column:click', column)"
             >
               {{ column.label }}
             </th>

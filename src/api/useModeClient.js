@@ -3,7 +3,7 @@ import { ref, computed, watch, getCurrentInstance } from 'vue'
 export default function useModeClient(wrapper) {
   const rows = computed(() => {
     //
-    wrapper.isLoading.value = true
+    wrapper.loading(true)
 
     //
     const rows = wrapper.data.value
@@ -26,32 +26,34 @@ export default function useModeClient(wrapper) {
     wrapper.pagination.filterMode = filteredDataBySearch.length != rows.length
 
     // filter by sort
-    const orders = wrapper.order
     const filteredDataBySort = filteredDataBySearch.sort((a, b) => {
       let result = 0
-      for (let i = 0; i < orders.length; i++) {
-        const order = orders[i]
+      for (let i = 0; i < wrapper.order.length; i++) {
+        const order = wrapper.order[i]
         const column = wrapper.sortableColumns.value.find(
           (c) => c.name == order.name
         )
+
         //
         const columnName = column.name
-        let aValue = a[columnName]
-        let bValue = b[columnName]
+        if (a[columnName] && b[columnName]) {
+          let aValue = a[columnName]
+          let bValue = b[columnName]
 
-        if (typeof aValue == 'string') {
-          aValue = `${a[columnName]}`.toLowerCase()
-          bValue = `${b[columnName]}`.toLowerCase()
-        } else if (typeof aValue == 'number') {
-          aValue = parseInt(a[columnName])
-          bValue = parseInt(b[columnName])
-        }
+          if (typeof aValue == 'string') {
+            aValue = `${a[columnName]}`.toLowerCase()
+            bValue = `${b[columnName]}`.toLowerCase()
+          } else if (typeof aValue == 'number') {
+            aValue = parseInt(a[columnName])
+            bValue = parseInt(b[columnName])
+          }
 
-        //
-        if (aValue > bValue) {
-          result = order.direction === 'desc' ? -1 : 1
-        } else if (aValue < bValue) {
-          result = order.direction === 'desc' ? 1 : -1
+          //
+          if (aValue > bValue) {
+            result = order.direction === 'desc' ? -1 : 1
+          } else if (aValue < bValue) {
+            result = order.direction === 'desc' ? 1 : -1
+          }
         }
       }
       return result
@@ -80,7 +82,7 @@ export default function useModeClient(wrapper) {
       currentPage * perPage > countRows ? countRows : currentPage * perPage
 
     //
-    wrapper.isLoading.value = false
+    wrapper.loading(false)
 
     //
     return filteredDataByPagination
