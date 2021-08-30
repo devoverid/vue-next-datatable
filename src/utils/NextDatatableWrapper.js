@@ -1,5 +1,12 @@
 // lib
-import { ref, reactive, computed, watch, getCurrentInstance } from 'vue'
+import {
+  ref,
+  reactive,
+  computed,
+  watch,
+  getCurrentInstance,
+  markRaw,
+} from 'vue'
 import merge from 'lodash.merge'
 import NextDatatablePluginManager from './NextDatatablePluginManager'
 
@@ -26,26 +33,23 @@ export default class NextDatatableWrapper {
     //
     this.props = props
     this.context = context
+    this.customColumns = []
+    this.globalReferences = {}
+
+    // watch props change or not]
     this.filters = reactive({
       search: '',
     })
-    this.globalReferences = {}
-
-    // watch props change or not
-    this.data = reactive(props.data)
-    this.columns = reactive(props.columns)
+    this.rows = reactive([])
+    this.data = ref(props.data)
+    this.columns = ref(this.initColumns(props.columns))
     watch(this.props, (props) => {
       // emit event
       this.emit('table:props-changed', props)
 
-      // apply hook
-      const columns = this.applyHook(
-        'table:columns',
-        this.initColumns(props.columns)
-      )
-      const data = this.applyHook('table:client:data', props.data)
-      this.data = reactive(data)
-      this.columns = reactive(columns)
+      // apply
+      this.data.value = this.initData(props.data)
+      this.columns.value = this.initColumns(props.columns)
     })
 
     // Set loading true
@@ -71,16 +75,51 @@ export default class NextDatatableWrapper {
     this.initTable()
 
     //
-    this.isLoading.value = false
+    this.registerWatch()
+
+    //
+    this.loading(false)
   }
 
+  loading(value = true) {
+    this.isLoading.value = value
+  }
+
+  /**
+   * Register a watch
+   */
+  registerWatch() {
+    watch(this.data, (val) => this.emit('table:data-changed', val))
+    watch(this.columns, (val) => this.emit('table:columns-changed', val))
+    watch(this.rows, (val) => this.emit('table:rows-changed', val))
+    watch(
+      () => this.filters.search,
+      (val) => this.emit('search:change', val)
+    )
+  }
+
+  initData(data) {
+    const result = []
+    for (let i = 0; i < data.length; i++) {
+      result.push(data[i])
+    }
+    return result
+  }
+
+  /**
+   * Init Columns
+   * @param  {Array} columns
+   */
   initColumns(columns) {
     const result = []
+
+    // base columns
     for (let i = 0; i < columns.length; i++) {
       let col = merge({ ...NextDatatableColumnDefaultOptions }, columns[i])
 
       // if colomn has component
       if (typeof col.component !== 'undefined') {
+        col.component = markRaw(col.component)
         col.searchable = false
         col.sortable = false
       }
@@ -88,6 +127,14 @@ export default class NextDatatableWrapper {
       //
       result.push(col)
     }
+
+    // custom columns
+    for (let i = 0; i < this.customColumns.length; i++) {
+      const customColumn = this.customColumns[i]
+      if (customColumn.toIndex === null) customColumn.toIndex = result.length
+      result.splice(customColumn.toIndex, 0, customColumn.column)
+    }
+
     return result
   }
 
@@ -117,7 +164,6 @@ export default class NextDatatableWrapper {
       this.nextDatatableOptions.themes.find(
         (theme) => theme.name == this.options.theme
       ) || null
-    console.log(this.options.theme)
     this.isDebug = this.nextDatatableOptions.debug
     this.mode = 'client'
     this.console('table', `Generated in ${this.mode} mode.`)
@@ -127,18 +173,10 @@ export default class NextDatatableWrapper {
    * Init the table
    */
   initTable() {
-    // main
-    this.rows = reactive([])
-
     // pagination
     usePaginate(this)
 
     // search
-    this.filters.search = ''
-    watch(
-      () => this.filters.search,
-      (val) => this.emit('search:change', val)
-    )
     this.searchableColumns = computed(() =>
       this.props.columns.filter((column) => column.searchable !== false)
     )
@@ -148,9 +186,15 @@ export default class NextDatatableWrapper {
     } else if (this.mode == 'client') {
       this.client = useModeClient(this)
       this.rows = computed(() => this.client.rows.value)
-      watch(this.data, (val) => this.emit('table:data-changed', val))
-      watch(this.rows, (val) => this.emit('table:rows-changed', val))
     }
+  }
+
+  addColumn(column, toIndex = null) {
+    this.customColumns.push({
+      column,
+      toIndex,
+    })
+    this.columns.value = this.initColumns(this.props.columns)
   }
 
   /**
@@ -184,26 +228,6 @@ export default class NextDatatableWrapper {
   }
 
   /**
-   * Register a hook
-   * @param  {string} name - name of the event
-   * @param  {void} callback - callback function
-   * @param  {number} priority=20 - priority of the event
-   */
-  addHook(name, callback, priority = 20) {
-    this.pluginManager.hooks.push({ name, callback, priority })
-  }
-
-  /**
-   * Call all hook with the same name and return the result
-   * @param  {string} name
-   * @param  {any} value
-   * @param  {any} ...args
-   */
-  applyHook(name, value, ...args) {
-    return this.pluginManager.applyHook(name, value, ...args)
-  }
-
-  /**
    * Debug console
    * @param  {string} grup
    * @param  {string} text
@@ -220,8 +244,10 @@ export default class NextDatatableWrapper {
   getReferences() {
     return {
       ...this.globalReferences,
+      nextdatatable: this,
       options: this.options,
       rows: this.rows,
+      renderedColumns: this.columns,
       filters: this.filters,
       isLoading: this.isLoading,
     }

@@ -7,7 +7,6 @@ export default class NextDatatablePluginManager {
     this.registeredPlugins = []
     this.wrapper = wrapper
     this.listeners = []
-    this.hooks = []
   }
 
   /**
@@ -52,34 +51,5 @@ export default class NextDatatablePluginManager {
         console.log(error)
       }
     }
-  }
-
-  /**
-   * Call all hook with the same name and return the result
-   * @param  {string} name
-   * @param  {any} value
-   * @param  {any} ...args
-   */
-  applyHook(name, value, ...args) {
-    const hooks = this.hooks
-      .filter((hook) => hook.name == name)
-      .sort((a, b) => a.priority - b.priority)
-
-    let result = undefined
-    if (Array.isArray(result)) {
-      result = [...result]
-    } else if (typeof result === 'object') {
-      result = { ...result }
-    } else {
-      result = value
-    }
-    for (let i = 0; i < hooks.length; i++) {
-      try {
-        result = hooks[i].callback(result, ...args)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    return result
   }
 }

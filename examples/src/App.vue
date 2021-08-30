@@ -1,23 +1,26 @@
 <template>
 <div class="container">
-  <NextDatatable :data="data" :columns="columns" :options="{ perPage: 5 }">
+  <NextDatatable ref="table" :data="data" :columns="columns" :options="{ perPage: 5 }">
     <template #row-action="{ rowData }">
       <button>Update {{ rowData.id }}</button>
     </template>
   </NextDatatable>
-  <button @click="add">add random</button>
-  <button @click="test">test</button>
+  <button @click="add">add random data</button>
+  <button @click="test">test loader</button>
 </div>
 </template>
 
 <script>
-import { reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import Status from './components/Status.vue'
 
 export default {
-  setup() {
-    const data = reactive([])
+  setup(props, context) {
+    // access nextdatatable component
+    const table = ref(null)
 
+    // nextdatatable props
+    const data = reactive([])
     const columns = ([
       {
         name: 'id',
@@ -26,10 +29,6 @@ export default {
       {
         name: 'name',
         label: 'Name',
-      },
-      {
-        name: 'age',
-        label: 'Age',
       },
       {
         name: 'address',
@@ -48,20 +47,38 @@ export default {
       },
     ])
 
+    // make custom id
+    const makeid = (length) => {
+      var result           = ''
+      var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+      var charactersLength = characters.length
+      for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength))
+      }
+      return result
+    }
+
+    // add data
     const add = () => {
       const rand = Math.round(Math.random() * 100)
       data.push({
-        id: data.length + 1,
+        id: makeid(10),
         name: `Random - ${rand}`,
-        age: rand,
         address: `Random - ${rand}`,
         action: '',
       })
     }
 
+    // test
     const test = () => {
+      const nextdatatable = table.value.nextdatatable
+      nextdatatable.loading(true)
+      setTimeout(() => {
+        nextdatatable.loading(false)
+      }, 1000)
     }
 
+    // on mount
     onMounted(() => {
       for (let i = 0; i < 1000; i++) {
         add()
@@ -72,7 +89,8 @@ export default {
       data,
       columns,
       add,
-      test
+      test,
+      table
     }
   }
 }

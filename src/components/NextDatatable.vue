@@ -12,12 +12,12 @@
       }">
         <thead>
           <tr>
-            <th v-for="(column, i) in columns" :key="i">{{ column.label }}</th>
+            <th v-for="(column, i) in renderedColumns" :key="i">{{ column.label }}</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(row, i) in rows" :key="i">
-            <td v-for="(column, j) in columns" :key="j">
+            <td v-for="(column, j) in renderedColumns" :key="j">
               <slot :name="`row-${column.name}`" :rowData="row" :column="column">
                 <template v-if="column.component">
                   <component :is="column.component" :rowData="row" :column="column" />
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { onMounted } from 'vue'
 import NextDatatableLoader from './NextDatatableLoader.vue'
 import NextDatatableActionLength from './NextDatatableActionLength.vue'
 import NextDatatableActionFilter from './NextDatatableActionFilter.vue'
@@ -58,11 +59,11 @@ export default {
   },
   props,
   setup(props, context) {
-    const nextDatatable = new NextDatatableWrapper(props, context)
+    const nextdatatable = new NextDatatableWrapper(props, context)
 
     return {
-      nextDatatable,
-      ...nextDatatable.getReferences()
+      nextdatatable,
+      ...nextdatatable.getReferences()
     }
   }
 }

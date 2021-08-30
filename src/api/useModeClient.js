@@ -5,9 +5,8 @@ export default function useModeClient(wrapper) {
     //
     wrapper.isLoading.value = true
 
-    // hook
-    const rows = wrapper.applyHook('table:client:rows', wrapper.data)
-    // const rows = data.value
+    //
+    const rows = wrapper.data.value
 
     // filter by search
     const filteredDataBySearch = rows.filter((row) => {
