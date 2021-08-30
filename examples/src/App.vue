@@ -57,6 +57,10 @@ export default {
       }
       return result
     }
+    const makestatus = () => {
+      const status = ['pending', 'success', 'error']
+      return status[Math.floor(Math.random() * status.length)]
+    }
 
     // add data
     const add = () => {
@@ -65,6 +69,7 @@ export default {
         id: makeid(10),
         name: `Random - ${rand}`,
         address: `Random - ${rand}`,
+        status: makestatus(),
         action: '',
       })
     }

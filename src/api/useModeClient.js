@@ -25,10 +25,42 @@ export default function useModeClient(wrapper) {
     })
     wrapper.pagination.filterMode = filteredDataBySearch.length != rows.length
 
+    // filter by sort
+    const orders = wrapper.order
+    const filteredDataBySort = filteredDataBySearch.sort((a, b) => {
+      let result = 0
+      for (let i = 0; i < orders.length; i++) {
+        const order = orders[i]
+        const column = wrapper.sortableColumns.value.find(
+          (c) => c.name == order.name
+        )
+        //
+        const columnName = column.name
+        let aValue = a[columnName]
+        let bValue = b[columnName]
+
+        if (typeof aValue == 'string') {
+          aValue = `${a[columnName]}`.toLowerCase()
+          bValue = `${b[columnName]}`.toLowerCase()
+        } else if (typeof aValue == 'number') {
+          aValue = parseInt(a[columnName])
+          bValue = parseInt(b[columnName])
+        }
+
+        //
+        if (aValue > bValue) {
+          result = order.direction === 'desc' ? -1 : 1
+        } else if (aValue < bValue) {
+          result = order.direction === 'desc' ? 1 : -1
+        }
+      }
+      return result
+    })
+
     // filter paginate
-    const countRows = filteredDataBySearch.length
+    const countRows = filteredDataBySort.length
     const perPage = wrapper.pagination.perPage
-    const totalPage = Math.ceil(filteredDataBySearch.length / perPage)
+    const totalPage = Math.ceil(filteredDataBySort.length / perPage)
     let currentPage = 1
     if (wrapper.pagination.currentPage > totalPage && totalPage !== 0) {
       currentPage = totalPage
@@ -36,7 +68,7 @@ export default function useModeClient(wrapper) {
     } else {
       currentPage = wrapper.pagination.currentPage
     }
-    const filteredDataByPagination = filteredDataBySearch.slice(
+    const filteredDataByPagination = filteredDataBySort.slice(
       (currentPage - 1) * perPage,
       currentPage * perPage
     )

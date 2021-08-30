@@ -18,6 +18,7 @@ import NextDatatableDefaultOptions from '../api/NextDatatableDefaultOptions'
 import useRegisterLifeCycleComponent from '../api/useRegisterLifeCycleComponent'
 import useModeClient from '../api/useModeClient'
 import usePaginate from '../api/usePaginate'
+import useSorting from '../api/useSorting'
 
 /**
  * Wrapper Fot the Datatable component
@@ -41,7 +42,7 @@ export default class NextDatatableWrapper {
       search: '',
     })
     this.rows = reactive([])
-    this.data = ref(props.data)
+    this.data = ref(this.initData(props.data))
     this.columns = ref(this.initColumns(props.columns))
     watch(this.props, (props) => {
       // emit event
@@ -98,6 +99,10 @@ export default class NextDatatableWrapper {
     )
   }
 
+  /**
+   * Init data
+   * @param  {Array} data
+   */
   initData(data) {
     const result = []
     for (let i = 0; i < data.length; i++) {
@@ -131,8 +136,12 @@ export default class NextDatatableWrapper {
     // custom columns
     for (let i = 0; i < this.customColumns.length; i++) {
       const customColumn = this.customColumns[i]
+      let col = merge(
+        { ...NextDatatableColumnDefaultOptions },
+        customColumn.column
+      )
       if (customColumn.toIndex === null) customColumn.toIndex = result.length
-      result.splice(customColumn.toIndex, 0, customColumn.column)
+      result.splice(customColumn.toIndex, 0, col)
     }
 
     return result
@@ -173,12 +182,15 @@ export default class NextDatatableWrapper {
    * Init the table
    */
   initTable() {
+    // sorting
+    useSorting(this)
+
     // pagination
     usePaginate(this)
 
     // search
     this.searchableColumns = computed(() =>
-      this.props.columns.filter((column) => column.searchable !== false)
+      this.columns.value.filter((column) => column.searchable !== false)
     )
 
     // handle data with specific mode
@@ -189,6 +201,11 @@ export default class NextDatatableWrapper {
     }
   }
 
+  /**
+   * Add column
+   * @param  {Object} column - Column object
+   * @param  {number} toIndex=null - Index to insert
+   */
   addColumn(column, toIndex = null) {
     this.customColumns.push({
       column,

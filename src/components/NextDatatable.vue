@@ -19,9 +19,18 @@
         <!-- nextdatatable:table-head -->
         <thead>
           <tr>
-            <th v-for="(column, i) in renderedColumns" :key="i">
-              {{ column.label }}
-            </th>
+            <template v-for="(column, i) in renderedColumns" :key="i">
+              <th
+                :class="{
+                  'sortable': column.sortable,
+                  'sort_desc': getSortType(column, order) === 'desc',
+                  'sort_asc': getSortType(column, order) === 'asc',
+                }"
+                @click="nextdatatable.emit('table:thead:column:click', column)"
+              >
+                {{ column.label }}
+              </th>
+            </template>
           </tr>
         </thead>
         <!-- nextdatatable:table-body -->
@@ -34,6 +43,7 @@
                     :is="column.component"
                     :rowData="row"
                     :column="column"
+                    v-model:nextdatatable="nextdatatable"
                   />
                 </template>
                 <template v-else>
@@ -46,7 +56,11 @@
         <!-- nextdatatable:table-tfoot -->
         <tfoot>
           <tr>
-            <th v-for="(column, i) in renderedColumns" :key="i">
+            <th
+              v-for="(column, i) in renderedColumns"
+              :key="i"
+              @click="nextdatatable.emit('table:tfoot:column:click')"
+            >
               {{ column.label }}
             </th>
           </tr>
@@ -88,7 +102,7 @@ export default {
 
     return {
       nextdatatable,
-      ...nextdatatable.getReferences()
+      ...nextdatatable.getReferences(),
     }
   }
 }
