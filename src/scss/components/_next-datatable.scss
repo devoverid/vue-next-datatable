@@ -1,7 +1,17 @@
 @use "./../variables" as *;
 
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 .next-datatable {
     @include variables;
+
+    // font
+    table th {
+        font-family: 'Raleway', sans-serif;
+    }
+    * {
+        font-size: 14px;
+    }
 
     position: relative;
     clear: both;
@@ -35,12 +45,72 @@
 .next-datatable__table {
     border-collapse: collapse;
 
+    // Table Columns
+    & > thead > tr > th,
+    & > tfoot > tr > th {
+        font-weight: 600;
+    }
+
+    // Bordered
     &.next-datatable__table--bordered {
         th, td, tr {
             border: var(--border-width) var(--border-type) var(--border-color);
         }
+        & > tbody tr {
+            &:last-child {
+                th, td {
+                    border-bottom: none;
+                }
+            }
+        }
+        & > thead th {
+            border-bottom: var(--border-width) var(--border-type) var(--next-datatable-thead-border-bottom-color);        
+        }
+        & > tfoot th {
+            border-top: var(--border-width) var(--border-type) var(--next-datatable-tfoot-border-top-color);
+        }
     }
 
+    // Borderless
+    &.next-datatable__table--borderless {
+        th, td, tr {
+            border-top: var(--border-width) var(--border-type) var(--border-color);
+            border-bottom: var(--border-width) var(--border-type) var(--border-color);
+        }
+        & > tbody tr {
+            &:last-child {
+                th, td {
+                    border-bottom: none;
+                }
+            }
+        }
+        & > thead {
+            tr {
+                &:first-child {
+                    border-top: none;
+                    th, td {
+                        border-top: none;
+                    }
+                }
+            }
+            th {
+                border-bottom: var(--border-width) var(--border-type) var(--next-datatable-thead-border-bottom-color);        
+            }
+        }
+        & > tfoot {
+            tr {
+                &:first-child {
+                    border-bottom: none;
+                    th, td {
+                        border-bottom: none;
+                    }
+                }
+            }
+            th {
+                border-top: var(--border-width) var(--border-type) var(--next-datatable-tfoot-border-top-color);
+            }
+        }
+    }
 
     // Sizes
     &.next-datatable__table--sm {

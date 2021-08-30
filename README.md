@@ -93,11 +93,11 @@ export default {
 |---|---|---|---|
 | perPage | number | number of items displayed in one page | 10 |
 | showEntriesBy | array | number of items allowed to view per page | [10, 20, 50, 100] |
-| type | string | type table style | 'bordered' |
+| type | string | type table style `bordered` or `borderless` | 'bordered' |
 | size | string | size of table | 'md' |
 | pagination | object | pagination option | {...} |
 | pagination.position | string | position pagination | 'end' |
-| pagination.type | string | type pagination style | 'separate' |
+| pagination.type | string | type pagination style `extended` or `minimal` | 'extended' |
 | pagination.activeColor | string | button color on active | '#185ADB' |
 
 ### VueNextTable Options
@@ -107,6 +107,7 @@ export default {
 | defaults | object | table options | { ...TableOptions } |
 | debug | boolean | view emit dispatch & error handler | true |
 | plugins | array<function> | register plugins | [] |
+| themes | array<object> | register themes | [] |
 
 ### Example Plugin
 
@@ -160,17 +161,6 @@ app.mount('#app')
 | pagination:change  | When Pagination Value Change      | `pagination: object`                   |
 | pagination:before-navigate | When pagination navigate | `toPage: number, fromPage: number` |
 | pagination:navigated | after pagination navigate | `toPage: number, fromPage: number` |
-
-
-### Hook
-
-| Hook Name         | Description                                         | Parameter      |
-|-------------------|-----------------------------------------------------|----------------|
-| table:columns     | Return colums data when props change                | columns: array |
-| table:client:data | Return colums data when props change in client mode | data: array    |
-| table:client:rows | For render a row when data changed in client mode   | rows: array    |
-
-
 
 
 ## Contributing
