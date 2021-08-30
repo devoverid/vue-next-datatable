@@ -44,6 +44,13 @@
                 }
             }
     
+            &.next-datatable__pagination__item__dot {
+                & > button {
+                    background-color: var(--pagination-background-dot-color);
+                    color: var(--pagination-button-dot-color);
+                    cursor: not-allowed;
+                }
+            }
         }
     }
 
