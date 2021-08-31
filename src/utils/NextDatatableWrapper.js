@@ -44,14 +44,6 @@ export default class NextDatatableWrapper {
     this.rows = reactive([])
     this.data = ref(this.initData(props.data))
     this.columns = ref(this.initColumns(props.columns))
-    watch(this.props, (props) => {
-      // emit event
-      this.emit('table:props-changed', props)
-
-      // apply
-      this.data.value = this.initData(props.data)
-      this.columns.value = this.initColumns(props.columns)
-    })
 
     // Set loading true
     this.isLoading = ref(true)
@@ -90,6 +82,12 @@ export default class NextDatatableWrapper {
    * Register a watch
    */
   registerWatch() {
+    // watch props change or not
+    watch(this.props, (props) => {
+      this.emit('table:props-changed', props)
+      this.data.value = this.initData(props.data)
+      this.columns.value = this.initColumns(props.columns)
+    })
     watch(this.data, (val) => this.emit('table:data-changed', val))
     watch(this.columns, (val) => this.emit('table:columns-changed', val))
     watch(this.rows, (val) => this.emit('table:rows-changed', val))
@@ -216,10 +214,9 @@ export default class NextDatatableWrapper {
 
   /**
    * Search
-   * @param  {} value - Search value on the table
+   * @param  {string} value - Search value on the table
    */
   search(value) {
-    this.emit('on:search')
     this.filters.search = value
   }
   /**

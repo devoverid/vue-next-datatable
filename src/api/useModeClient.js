@@ -10,12 +10,13 @@ export default function useModeClient(wrapper) {
 
     // filter by search
     const filteredDataBySearch = rows.filter((row) => {
+      const search = wrapper.filters.search
       let result = false
       for (let i = 0; i < wrapper.searchableColumns.value.length; i++) {
         const column = wrapper.searchableColumns.value[i]
         const columnName = `${column.name}`.toLowerCase()
         const columnValue = `${row[columnName]}`.toLowerCase()
-        const included = columnValue.includes(`${wrapper.filters.search}`)
+        const included = columnValue.includes(`${search}`)
         if (included) {
           result = true
           break
@@ -88,7 +89,11 @@ export default function useModeClient(wrapper) {
     return filteredDataByPagination
   })
 
+  // return
   return {
     rows,
+    filteredDataBySearch,
+    filteredDataBySort,
+    filteredDataByPagination,
   }
 }
