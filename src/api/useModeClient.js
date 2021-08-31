@@ -92,8 +92,5 @@ export default function useModeClient(wrapper) {
   // return
   return {
     rows,
-    filteredDataBySearch,
-    filteredDataBySort,
-    filteredDataByPagination,
   }
 }
