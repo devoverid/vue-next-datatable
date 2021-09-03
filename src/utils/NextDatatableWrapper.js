@@ -8,6 +8,7 @@ import {
   markRaw,
 } from 'vue'
 import merge from 'lodash.merge'
+import { Document as FlexDocument } from 'flexsearch'
 import NextDatatablePluginManager from './NextDatatablePluginManager'
 
 // default options
@@ -42,8 +43,9 @@ export default class NextDatatableWrapper {
       search: '',
     })
     this.rows = reactive([])
-    this.data = ref(this.initData(props.data))
+    this.data = reactive(props.data)
     this.columns = ref(this.initColumns(props.columns))
+    this.index = null
 
     // Set loading true
     this.isLoading = ref(true)
@@ -68,6 +70,7 @@ export default class NextDatatableWrapper {
     this.initTable()
 
     //
+    this.indexData()
     this.registerWatch()
 
     //
@@ -85,7 +88,8 @@ export default class NextDatatableWrapper {
     // watch props change or not
     watch(this.props, (props) => {
       this.emit('table:props-changed', props)
-      this.data.value = this.initData(props.data)
+      this.data = this.initData(props.data)
+      this.indexData()
       this.columns.value = this.initColumns(props.columns)
     })
     watch(this.data, (val) => this.emit('table:data-changed', val))
@@ -102,11 +106,7 @@ export default class NextDatatableWrapper {
    * @param  {Array} data
    */
   initData(data) {
-    const result = []
-    for (let i = 0; i < data.length; i++) {
-      result.push(data[i])
-    }
-    return result
+    return [...data]
   }
 
   /**
@@ -195,8 +195,25 @@ export default class NextDatatableWrapper {
     if (this.mode == 'server') {
     } else if (this.mode == 'client') {
       this.client = useModeClient(this)
-      this.rows = computed(() => this.client.rows.value)
+      this.rows = this.client.rows
     }
+  }
+
+  /**
+   * Index all the data to FlexSearch
+   */
+  indexData() {
+    // Index all the data using FlexDocument
+    this.index = new FlexDocument({
+      tokenize: this.options.search.mode,
+      index: this.searchableColumns.value.map((col) => col.name),
+    })
+    // Add the data to be index
+    this.data.forEach((row, i) => {
+      this.index.add(i, row)
+      return row
+    })
+    console.log('indexing.. ', this.props.data)
   }
 
   /**

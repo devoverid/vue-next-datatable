@@ -23,6 +23,10 @@
     --table-sm-cellpadding: .25rem;
     --table-md-cellpadding:  .5rem .5rem;
     --table-lg-cellpadding:  1rem;
+
+    // Sorting
+    --sort-icon-bg: #ccc;
+    --sort-icon-bg-active: var(--primary);
     
     // Pagination
     --pagination-button-color:              var(--text-color);

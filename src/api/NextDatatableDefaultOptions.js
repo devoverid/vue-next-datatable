@@ -14,6 +14,9 @@ export default {
       type: 'extended',
       activeColor: '#185ADB',
     },
+    search: {
+      mode: 'forward', // flexsearch tokenizer. Please refer to https://github.com/nextapps-de/flexsearch#tokenizer-prefix-search
+    },
   },
   plugins: [],
   themes: [],

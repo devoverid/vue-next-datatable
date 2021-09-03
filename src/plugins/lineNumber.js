@@ -11,7 +11,7 @@ const onTableInit = function () {
 }
 
 const injectNumberToRows = function () {
-  const rows = this.data.value
+  const rows = this.data
   if (rows) {
     for (let i = 0; i < rows.length; i++) {
       rows[i].number = i + 1

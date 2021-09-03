@@ -1,30 +1,33 @@
 import { ref, computed, watch, getCurrentInstance } from 'vue'
+import merge from 'lodash.merge'
 
 export default function useModeClient(wrapper) {
   const rows = computed(() => {
-    //
     wrapper.loading(true)
 
-    //
-    const rows = wrapper.data.value
+    const data = wrapper.data
 
-    // filter by search
-    const filteredDataBySearch = rows.filter((row) => {
-      const search = wrapper.filters.search
-      let result = false
-      for (let i = 0; i < wrapper.searchableColumns.value.length; i++) {
-        const column = wrapper.searchableColumns.value[i]
-        const columnName = `${column.name}`.toLowerCase()
-        const columnValue = `${row[columnName]}`.toLowerCase()
-        const included = columnValue.includes(`${search}`)
-        if (included) {
-          result = true
-          break
-        }
-      }
-      return result
+    // Execute search
+    let searchResult = wrapper.index.search(wrapper.filters.search, {
+      enrich: true,
     })
-    wrapper.pagination.filterMode = filteredDataBySearch.length != rows.length
+    let resultIndexes = []
+
+    // Merge result index each column
+    searchResult.forEach((res) => merge(resultIndexes, res.result))
+
+    console.log(searchResult)
+
+    let filteredDataBySearch
+
+    // if empty, return the original data
+    if (wrapper.filters.search == '') filteredDataBySearch = data
+    else
+      filteredDataBySearch = data.filter((row, index) =>
+        resultIndexes.includes(index)
+      )
+
+    wrapper.pagination.filterMode = filteredDataBySearch.length != data.length
 
     // filter by sort
     const filteredDataBySort = filteredDataBySearch.sort((a, b) => {
@@ -76,7 +79,7 @@ export default function useModeClient(wrapper) {
       currentPage * perPage
     )
     wrapper.pagination.totalPage = totalPage
-    wrapper.pagination.totalRow = rows.length
+    wrapper.pagination.totalRow = data.length
     wrapper.pagination.totalFilteredRow = countRows
     wrapper.pagination.firstItemIndex = (currentPage - 1) * perPage + 1
     wrapper.pagination.lastItemIndex =
