@@ -1,14 +1,17 @@
 export default {
   debug: true,
   defaults: {
+    server: {
+      url: '',
+    },
     perPage: 10,
     showEntriesBy: [10, 20, 50, 100],
+    type: 'bordered',
+    size: 'md',
     sort: {
       mode: 'single',
       order: [],
     },
-    type: 'bordered',
-    size: 'md',
     pagination: {
       position: 'end',
       type: 'extended',

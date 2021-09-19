@@ -1,6 +1,19 @@
 <template>
 <div class="container">
-  <NextDatatable ref="table" :data="data" :columns="columns" :options="{ perPage: 5, sort: { mode: 'multiple' } }">
+  <NextDatatable ref="table" :data="data" :columns="columns" :options="options">
+    <template #action="{ filters }">
+      <div class="action">
+        <div>
+          <label for="inputFilterStatus">Filter Status : </label>
+          <select id="inputFilterStatus" v-model="filters.status">
+            <option value="undefined">-- select --</option>
+            <option v-for="(item, i) in availableStatus" :key="i" :value="item">
+              {{ item }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </template>
     <template #row-action="{ rowData }">
       <button>Update {{ rowData.id }}</button>
     </template>
@@ -20,6 +33,15 @@ export default {
     const table = ref(null)
 
     // nextdatatable props
+    const options = {
+      server: {
+        url: 'http://localhost:8000/test'
+      },
+      perPage: 5,
+      sort: {
+        mode: 'multiple'
+      }
+    }
     const data = reactive([])
     const columns = ([
       {
@@ -47,7 +69,8 @@ export default {
       },
     ])
 
-    // make custom id
+    // methods
+    const availableStatus = ['Pending', 'Success', 'Failed']
     const makeid = (length) => {
       var result           = ''
       var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -58,8 +81,7 @@ export default {
       return result
     }
     const makestatus = () => {
-      const status = ['pending', 'success', 'error']
-      return status[Math.floor(Math.random() * status.length)]
+      return availableStatus[Math.floor(Math.random() * availableStatus.length)]
     }
 
     // add data
@@ -91,8 +113,10 @@ export default {
     })
 
     return {
+      options,
       data,
       columns,
+      availableStatus,
       add,
       test,
       table
@@ -109,5 +133,14 @@ export default {
   margin: 0 auto;
   font-family: 'Noto Sans JP', sans-serif;
   margin-top: 3rem;
+}
+
+.action {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: .5rem;
+  padding-bottom: .5rem;
+  width: 100%;;
+  border-bottom: 1px solid rgb(190, 190, 190);
 }
 </style>

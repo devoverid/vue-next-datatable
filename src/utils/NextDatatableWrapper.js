@@ -11,11 +11,12 @@ import merge from 'lodash.merge'
 import NextDatatablePluginManager from './NextDatatablePluginManager'
 
 // default options
-import NextDatatableColumnDefaultOptions from '../api/NextDatatableColumnDefaultOptions'
 import NextDatatableDefaultOptions from '../api/NextDatatableDefaultOptions'
+import NextDatatableColumnDefaultOptions from '../api/NextDatatableColumnDefaultOptions'
 
 // composable
 import useRegisterLifeCycleComponent from '../api/useRegisterLifeCycleComponent'
+import useModeServer from '../api/useModeServer'
 import useModeClient from '../api/useModeClient'
 import usePaginate from '../api/usePaginate'
 import useSorting from '../api/useSorting'
@@ -172,7 +173,16 @@ export default class NextDatatableWrapper {
         (theme) => theme.name == this.options.theme
       ) || null
     this.isDebug = this.nextDatatableOptions.debug
+
+    // check table mode
     this.mode = 'client'
+    if (
+      typeof this.options.server !== 'undefined' &&
+      typeof this.options.server.url !== 'undefined' &&
+      this.options.server.url !== ''
+    ) {
+      this.mode = 'server'
+    }
     this.console('table', `Generated in ${this.mode} mode.`)
   }
 
@@ -193,6 +203,8 @@ export default class NextDatatableWrapper {
 
     // handle data with specific mode
     if (this.mode == 'server') {
+      this.server = useModeServer(this)
+      this.rows = computed(() => this.server.rows.value)
     } else if (this.mode == 'client') {
       this.client = useModeClient(this)
       this.rows = computed(() => this.client.rows.value)

@@ -2,9 +2,9 @@
   <div
     class="badge"
     :class="{
-      'status-success': rowData.status === 'success',
-      'status-pending': rowData.status === 'pending',
-      'status-error': rowData.status === 'error',
+      'status-success': rowData.status === 'Success',
+      'status-pending': rowData.status === 'Pending',
+      'status-error': rowData.status === 'Failed',
     }"
   >
     {{ `${rowData.status}`.toUpperCase() }}

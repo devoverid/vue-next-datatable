@@ -7,7 +7,7 @@
     <ul class="next-datatable__pagination__nav">
       <li class="next-datatable__pagination__item next-datatable__pagination__item__prev">
         <button
-          :disabled="pagination.currentPage <= 1"
+          :disabled="pagination.currentPage <= 1 || isLoading"
           @click.prevent="pagination.navigate(pagination.currentPage - 1)"
         >
           Prev
@@ -24,7 +24,7 @@
               }"
             >
             <button
-              :disabled="pagination.currentPage === i" @click.prevent="pagination.navigate(i)">
+              :disabled="pagination.currentPage === i || isLoading" @click.prevent="pagination.navigate(i)">
               {{ i }}
             </button>
           </li>
@@ -46,7 +46,7 @@
       <!-- Start: Next Button -->
       <li class="next-datatable__pagination__item next-datatable__pagination__item__next">
         <button
-          :disabled="pagination.currentPage >= pagination.totalPage"
+          :disabled="pagination.currentPage >= pagination.totalPage || isLoading"
           @click.prevent="pagination.navigate(pagination.currentPage + 1)"
         >
           Next
@@ -59,9 +59,13 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 export default {
   props: {
+    isLoading: {
+      type: Boolean,
+      required: true,
+    },
     pagination: {
       type: Object,
       required: true,

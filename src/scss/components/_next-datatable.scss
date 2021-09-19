@@ -28,9 +28,11 @@
         border: 0;
     }
     .next-datatable__action {
-        display: flex;
-        justify-content: space-between;
         margin-bottom: .5rem;
+        & > .next-datatable__action__row {
+            display: flex;
+            justify-content: space-between;
+        }
     }
 }
 
