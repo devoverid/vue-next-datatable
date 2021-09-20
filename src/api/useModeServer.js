@@ -1,5 +1,6 @@
 import { ref, onMounted, computed, watch, getCurrentInstance } from 'vue'
 import Axios from 'axios'
+import { debounce } from '../utils/debounce'
 
 function createHttpInstance(wrapper) {
   return Axios.create({
@@ -61,7 +62,10 @@ export default function useModeServer(wrapper) {
           wrapper.pagination.lastItemIndex =
             response.data.meta.pagination.lastItemIndex
           wrapper.pagination.filterMode = true
-          if (wrapper.pagination.currentPage > wrapper.pagination.totalPage) {
+          if (
+            wrapper.pagination.totalPage > 0 &&
+            wrapper.pagination.currentPage > wrapper.pagination.totalPage
+          ) {
             wrapper.pagination.currentPage = wrapper.pagination.totalPage
           }
         }
@@ -74,13 +78,14 @@ export default function useModeServer(wrapper) {
         wrapper.loading(false)
       })
   }
+  const refreshData = debounce(fetchData, 300)
 
   // watch and listener
   watch(data, (val) => wrapper.emit('table:server:data-changed', val))
   watch(rows, (val) => wrapper.emit('table:server:rows-changed', val))
-  watch(wrapper.filters, fetchData)
-  wrapper.addListener('pagination:navigated', fetchData)
-  wrapper.addListener('table:sort:order:change', fetchData)
+  watch(wrapper.filters, refreshData)
+  wrapper.addListener('pagination:navigated', refreshData)
+  wrapper.addListener('table:sort:order:change', refreshData)
 
   // lifecycle
   onMounted(() => {

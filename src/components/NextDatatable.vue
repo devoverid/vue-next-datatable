@@ -51,7 +51,7 @@
                   />
                 </template>
                 <template v-else>
-                  {{ row[column.name] }}
+                  {{ objFromDotNotation(row, column.name) }}
                 </template>
               </slot>
             </td>
@@ -91,6 +91,7 @@ import NextDatatableInfo from './NextDatatableInfo.vue'
 import NextDatatablePagination from './NextDatatablePagination.vue'
 import NextDatatableWrapper from '../utils/NextDatatableWrapper'
 import props from '../api/NextDatatableProps'
+import { objFromDotNotation } from '../utils/objDotNotation'
 
 export default {
   components: {
@@ -106,6 +107,7 @@ export default {
 
     return {
       nextdatatable,
+      objFromDotNotation,
       ...nextdatatable.getReferences(),
     }
   }

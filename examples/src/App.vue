@@ -53,13 +53,23 @@ export default {
         label: 'Name',
       },
       {
-        name: 'address',
-        label: 'Address',
-      },
-      {
         name: 'status',
         label: 'Status',
         component: Status,
+      },
+      {
+        name: 'detail.address',
+        label: 'Address',
+      },
+      {
+        name: 'detail.phone',
+        label: 'Phone Number',
+      },
+      {
+        name: 'custom',
+        label: 'custom',
+        searchable: false,
+        sortable: false,
       },
       {
         name: 'action',
