@@ -18,15 +18,21 @@ module.exports = {
         },
     ],
     sidebar: [
-          {
-              text: "Guide",
-              children: [
-                  '/guide/introduction.md',
-                  '/guide/getting-started.md',
-                  '/guide/plugins.md',
-                  '/guide/customizing.md',
-              ]
-          },
+        {
+            text: "Guide",
+            children: [
+                '/guide/introduction.md',
+                '/guide/getting-started.md',
+                '/guide/plugins.md',
+                '/guide/customizing.md',
+            ]
+        },
+        {
+            text: "Advanced",
+            children: [
+                '/advanced/customization.md',
+            ]
+        },
           {
               text: "Options",
               link: "/options/",

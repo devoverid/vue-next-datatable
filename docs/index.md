@@ -10,6 +10,6 @@ features:
 - title: Plugin System
   details: You can make your own plugin in Vue Next Datatable!
 - title: Server-side Integration
-  details: Feature 3 Description
+  details: Server-side table support and available libraries in several frameworks such as laravel & expressjs
 footer: Made with ❤️ by DevoverID Community
 ---

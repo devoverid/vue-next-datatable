@@ -1,7 +1,7 @@
 ---
 lang: en-US
 title: Getting Started
-description: This page describes how to getting started to use vue-next-datatable.
+description: This page   describes how to getting started to use vue-next-datatable.
 ---
 # Getting Started
 
@@ -71,3 +71,38 @@ export default {
   }
 </script>
 ```
+
+
+## Server Side
+You can add server url option in props options
+```vue{2,11-13}
+<template>
+  <NextDatatable :options="options">
+</template>
+
+<script>
+import { reactive } from 'vue'
+
+export default {
+  setup() {
+    const options = {
+      server: {
+        url: 'http://localhost:8000'
+      },
+      perPage: 5,
+      showEntriesBy: [5, 10, 20, 100],
+    }
+
+    return {
+      options
+    }
+  }
+</script>
+```
+Or you can directly add url props to the datatable component
+```vue{2}
+<template>
+  <NextDatatable url="http://localhost:8000">
+</template>
+```
+

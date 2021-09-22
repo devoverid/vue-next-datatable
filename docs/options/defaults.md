@@ -65,6 +65,7 @@ app.use(NextDatatable, {
 })
 ```
 
+
 ## `pagination`
 - **Type:** `Object`
 - **Default:** 
@@ -108,3 +109,29 @@ See more references below.
 - **Details:** The pagination active color. This color is to highlight the page number where user at.
 
 
+
+
+## `server`
+- **Type:** `Object`
+- **Default:** 
+```js
+{
+    url: ''
+}
+```
+- **Usage:**
+```js
+app.use(NextDatatable, {
+    defaults: {
+        server: {
+            url: 'http://localhost:8000'
+        }
+    }
+})
+```
+See more references below.
+
+### `server.url`
+- **Type:** `String`
+- **Default:** `''`
+- **Details:** Server url
