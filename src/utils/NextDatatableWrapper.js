@@ -45,7 +45,7 @@ export default class NextDatatableWrapper {
     this.rows = reactive([])
     this.data = reactive(props.data)
     this.columns = ref(this.initColumns(props.columns))
-    this.index = null
+    this.index = ref(null)
 
     // Set loading true
     this.isLoading = ref(true)
@@ -204,16 +204,15 @@ export default class NextDatatableWrapper {
    */
   indexData() {
     // Index all the data using FlexDocument
-    this.index = new FlexDocument({
+    this.index.value = new FlexDocument({
       tokenize: this.options.search.mode,
       index: this.searchableColumns.value.map((col) => col.name),
     })
     // Add the data to be index
     this.data.forEach((row, i) => {
-      this.index.add(i, row)
+      this.index.value.add(i, row)
       return row
     })
-    console.log('indexing.. ', this.props.data)
   }
 
   /**

@@ -8,15 +8,14 @@ export default function useModeClient(wrapper) {
     const data = wrapper.data
 
     // Execute search
-    let searchResult = wrapper.index.search(wrapper.filters.search, {
+    // if (!wrapper.index.value) return data
+    let searchResult = wrapper.index.value.search(wrapper.filters.search, {
       enrich: true,
     })
     let resultIndexes = []
 
     // Merge result index each column
     searchResult.forEach((res) => merge(resultIndexes, res.result))
-
-    console.log(searchResult)
 
     let filteredDataBySearch
 
