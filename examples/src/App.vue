@@ -1,113 +1,64 @@
 <template>
-<div class="container">
-  <NextDatatable ref="table" :data="data" :columns="columns" :options="{ perPage: 5, sort: { mode: 'multiple' } }">
-    <template #row-action="{ rowData }">
-      <button>Update {{ rowData.id }}</button>
-    </template>
-  </NextDatatable>
-  <button @click="add">add random data</button>
-  <button @click="test">test loader</button>
-</div>
+  <div class="container">
+    <h1 class="title">Next Datatable Demo</h1>
+    <div class="form">
+      <div>
+        <input id="inputClientMode" v-model="mode" type="radio" name="mode" value="Client">
+        <label for="inputClientMode">Client Mode</label>
+      </div>
+      <div>
+        <input id="inputServerMode" v-model="mode" type="radio" name="mode" value="Server">
+        <label for="inputServerMode">Server Mode</label>
+      </div>
+    </div>
+    <hr>
+    <component :is="mode" />
+  </div>
 </template>
 
 <script>
-import { ref, reactive, onMounted } from 'vue'
-import Status from './components/Status.vue'
+import { ref } from 'vue'
+import Client from './components/Client.vue'
+import Server from './components/Server.vue'
 
 export default {
-  setup(props, context) {
-    // access nextdatatable component
-    const table = ref(null)
-
-    // nextdatatable props
-    const data = reactive([])
-    const columns = ([
-      {
-        name: 'id',
-        label: 'ID',
-      },
-      {
-        name: 'name',
-        label: 'Name',
-      },
-      {
-        name: 'address',
-        label: 'Address',
-      },
-      {
-        name: 'status',
-        label: 'Status',
-        component: Status,
-      },
-      {
-        name: 'action',
-        label: 'Action',
-        searchable: false,
-        sortable: false,
-      },
-    ])
-
-    // make custom id
-    const makeid = (length) => {
-      var result           = ''
-      var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-      var charactersLength = characters.length
-      for ( var i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength))
-      }
-      return result
-    }
-    const makestatus = () => {
-      const status = ['pending', 'success', 'error']
-      return status[Math.floor(Math.random() * status.length)]
-    }
-
-    // add data
-    const add = () => {
-      const rand = Math.round(Math.random() * 100)
-      data.push({
-        id: makeid(10),
-        name: `Random - ${rand}`,
-        address: `Random - ${rand}`,
-        status: makestatus(),
-        action: '',
-      })
-    }
-
-    // test
-    const test = () => {
-      const nextdatatable = table.value.nextdatatable
-      nextdatatable.loading(true)
-      setTimeout(() => {
-        nextdatatable.loading(false)
-      }, 1000)
-    }
-
-    // on mount
-    onMounted(() => {
-      for (let i = 0; i < 1000; i++) {
-        add()
-      }
-    })
+  components: {
+    Client,
+    Server
+  },
+  setup() {
+    const mode = ref('Client')
 
     return {
-      data,
-      columns,
-      add,
-      test,
-      table
+      mode
     }
   }
 }
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+  .title {
+    font-size: 1.75rem;
+  }
 
-.container {
-  width: min(100%, 720px);
-  margin: 0 auto;
-  font-family: 'Noto Sans JP', sans-serif;
-  margin-top: 3rem;
-}
+  .form {
+    margin-top: 2rem;
+  }
+
+  .container {
+    width: min(100%, 720px);
+    margin: 0 auto;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-top: 1rem;
+  }
+
+  .action {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .5rem;
+    padding-bottom: .5rem;
+    width: 100%;;
+    border-bottom: 1px solid rgb(190, 190, 190);
+  }
 </style>

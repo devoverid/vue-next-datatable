@@ -10,6 +10,16 @@ const onTableInit = function () {
   this.console(plugin.name, 'Line Number Init')
 }
 
+const injectNumberToRowsServerMode = function () {
+  const rows = this.server.data.value
+  const firstIndex = this.pagination.firstItemIndex
+  if (rows) {
+    for (let i = 0; i < rows.length; i++) {
+      rows[i].number = firstIndex + i
+    }
+  }
+}
+
 const injectNumberToRows = function () {
   const rows = this.data
   if (rows) {
@@ -38,5 +48,9 @@ export default function install(nextdatatable, options) {
   nextdatatable.addListener(
     'table:data-changed',
     injectNumberToRows.bind(nextdatatable)
+  )
+  nextdatatable.addListener(
+    'table:server:data-changed',
+    injectNumberToRowsServerMode.bind(nextdatatable)
   )
 }

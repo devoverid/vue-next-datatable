@@ -19,9 +19,9 @@ export default function useRegisterLifeCycleComponent(nextDatatable) {
   onUpdated(() => nextDatatable.emit('on:updated'))
   onBeforeUnmount(() => nextDatatable.emit('on:before-unmount'))
   onUnmounted(() => nextDatatable.emit('on:unmounted'))
-  // onErrorCaptured((err) => nextDatatable.emit('on:error-captured', err))
-  // onRenderTracked(() => nextDatatable.emit('on:render-tracked'))
-  // onRenderTriggered(() => nextDatatable.emit('on:render-triggered'))
+  onErrorCaptured((err) => nextDatatable.emit('on:error-captured', err))
+  onRenderTracked(() => nextDatatable.emit('on:render-tracked'))
+  onRenderTriggered(() => nextDatatable.emit('on:render-triggered'))
   onActivated(() => nextDatatable.emit('on:activated'))
   onDeactivated(() => nextDatatable.emit('on:deactivated'))
 }

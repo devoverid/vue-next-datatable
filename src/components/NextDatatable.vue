@@ -2,10 +2,14 @@
   <div class="next-datatable" :style="options.theme.styles">
     <!-- nextdatatable:action -->
     <div class="next-datatable__action">
-      <!-- nextdatatable:action-length -->
-      <NextDatatableActionLength :pagination="pagination" />
-      <!-- nextdatatable:action-filter -->
-      <NextDatatableActionFilter :pagination="pagination" v-model:search="filters.search" />
+      <!-- nextdatatable:action-custom -->
+      <slot name="action" :nextdatatable="nextdatatable" :filters="filters" />
+      <div class="next-datatable__action__row">
+        <!-- nextdatatable:action-length -->
+        <NextDatatableActionLength :pagination="pagination" />
+        <!-- nextdatatable:action-filter -->
+        <NextDatatableActionFilter v-model:search="filters.search" />
+      </div>
     </div>
     <div class="next-datatable__table__wrapper">
       <!-- nextdatatable:table -->
@@ -47,7 +51,7 @@
                   />
                 </template>
                 <template v-else>
-                  {{ row[column.name] }}
+                  {{ objFromDotNotation(row, column.name) }}
                 </template>
               </slot>
             </td>
@@ -74,7 +78,7 @@
       <!-- nextdatatable:footer-action-info -->
       <NextDatatableInfo :pagination="pagination" />
       <!-- nextdatatable:footer-action-pagination -->
-      <NextDatatablePagination v-model:pagination="pagination" :options="options.pagination" />
+      <NextDatatablePagination v-model:isLoading="isLoading" v-model:pagination="pagination" :options="options.pagination" />
     </div>
   </div>
 </template>
@@ -87,6 +91,7 @@ import NextDatatableInfo from './NextDatatableInfo.vue'
 import NextDatatablePagination from './NextDatatablePagination.vue'
 import NextDatatableWrapper from '../utils/NextDatatableWrapper'
 import props from '../api/NextDatatableProps'
+import { objFromDotNotation } from '../utils/objDotNotation'
 
 export default {
   components: {
@@ -102,6 +107,7 @@ export default {
 
     return {
       nextdatatable,
+      objFromDotNotation,
       ...nextdatatable.getReferences(),
     }
   }

@@ -20,10 +20,10 @@ Vue Next Datatable is a Lightweight Datatable for Vue 3, Inspiration from DataTa
 - [x] Search
 - [x] Filter
 - [x] Pagination
-- [ ] Sort
+- [x] Sort
 - [x] Plugin System
-- [ ] Server-side
-- [ ] Customable Theme
+- [x] Server-side
+- [x] Customable Theme
 
 ## Overview
 
@@ -95,6 +95,8 @@ export default {
 | showEntriesBy | array | number of items allowed to view per page | [10, 20, 50, 100] |
 | type | string | type table style `bordered` or `borderless` | 'bordered' |
 | size | string | size of table | 'md' |
+| server | object | remote server option | {...} |
+| server.url | string | url of server api | '' |
 | pagination | object | pagination option | {...} |
 | pagination.position | string | position pagination | 'end' |
 | pagination.type | string | type pagination style `extended` or `minimal` | 'extended' |
@@ -178,6 +180,16 @@ app.mount('#app')
 | table:thead:column:click | when table head column click | `column: object` |
 | table:tfood:column:click | when table foot column click | `column: object` |
 | table:tbody:column:click | when table body column click | `row: object`, `column: object` |
+
+#### Table Server Mode
+| Event Name         | Description                       | Parameter                              |
+|--------------------|-----------------------------------|----------------------------------------|
+| table:server:data-changed | when data from fetch changed | `data: array`
+| table:server:rows-changed | when rows changed | `rows: array`
+| table:server:fetch | when fetch data trigger |  |
+| table:server:fetch-complete | when fetch data complete no error | `response: object` |
+| table:server:fetch-error | when fetch data error | `error: object` |
+| table:server:fetch-finally | when fetch data finally complete |  |
 
 
 ## Contributing

@@ -18,10 +18,6 @@ export default {
       type: String,
       required: true,
     },
-    pagination: {
-      type: Object,
-      required: true,
-    },
   },
   setup(props, { emit }) {
     watch(() => props.search, val => {
