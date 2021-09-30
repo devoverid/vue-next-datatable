@@ -12,7 +12,9 @@
       </div>
     </div>
     <hr>
-    <component :is="mode" />
+    <keep-alive>
+      <component :is="mode" />
+    </keep-alive>
   </div>
 </template>
 
