@@ -115,12 +115,12 @@ export default {
 
 Create your plugin file
 ```
-# myExamplePlugin.js
+# VueNextDatatable.js
 
 export default function install(nextDatatable, options) {
   // this is function called when table:init event
   const onTableInit = function () {
-    console.log('MyExamplePlugin on table:init')
+    console.log('VueNextDatatable on table:init')
   }
 
   // register function to event listener
@@ -133,12 +133,12 @@ export default function install(nextDatatable, options) {
 And then register your plugin in global options
 ```
 import NextDatatable from 'vue-next-datatable'
-import MyExamplePlugin from './plugins/MyExamplePlugin'
+import VueNextDatatable from './plugins/VueNextDatatable'
 
 const app = createApp(App)
 const options = {
   ...
-  plugins: [MyExamplePlugin],
+  plugins: [VueNextDatatable],
 }
 app.use(NextDatatable, options)
 app.mount('#app')

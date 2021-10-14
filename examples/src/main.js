@@ -9,7 +9,7 @@ import '../../src/scss/main.scss'
 import LineNumber from '../../src/plugins/lineNumber'
 
 // custom plugins
-import MyExamplePlugin from './plugins/MyExamplePlugin'
+import VueNextDatatable from './plugins/VueNextDatatable'
 
 const app = createApp(App)
 
@@ -23,7 +23,7 @@ const options = {
       type: 'extended',
     },
   },
-  plugins: [MyExamplePlugin, LineNumber],
+  plugins: [VueNextDatatable, LineNumber],
   themes: [
     {
       name: 'minimalist',

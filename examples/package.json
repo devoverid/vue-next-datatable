@@ -1,5 +1,5 @@
 {
-  "name": "examples",
+  "name": "vue-next-datatable-examples",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
