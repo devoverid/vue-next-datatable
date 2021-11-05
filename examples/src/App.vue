@@ -1,77 +1,66 @@
 <template>
-  <NextDatatable :data="data" :columns="columns" :options="{}">
-    <template #row-action="{ rowData }">
-      <button>Update {{ rowData.name }}</button>
-      <button>Delete {{ rowData.name }}</button>
-    </template>
-  </NextDatatable>
-  <button @click="add">add random</button>
+  <div class="container">
+    <h1 class="title">Next Datatable Demo</h1>
+    <div class="form">
+      <div>
+        <input id="inputClientMode" v-model="mode" type="radio" name="mode" value="Client">
+        <label for="inputClientMode">Client Mode</label>
+      </div>
+      <div>
+        <input id="inputServerMode" v-model="mode" type="radio" name="mode" value="Server">
+        <label for="inputServerMode">Server Mode</label>
+      </div>
+    </div>
+    <hr>
+    <keep-alive>
+      <component :is="mode" />
+    </keep-alive>
+  </div>
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
+import { ref } from 'vue'
+import Client from './components/Client.vue'
+import Server from './components/Server.vue'
 
 export default {
+  components: {
+    Client,
+    Server
+  },
   setup() {
-    let data = reactive([
-      {
-        id: 1,
-        name: 'John',
-        age: 32,
-        address: 'New York No. 1',
-        action: '',
-      },
-      {
-        id: 2,
-        name: 'Tom',
-        age: 32,
-        address: 'New York No. 2',
-        action: '',
-      }
-    ])
-
-    let columns = reactive([
-      {
-        name: 'id',
-        label: 'ID',
-      },
-      {
-        name: 'name',
-        label: 'Name',
-      },
-      {
-        name: 'age',
-        label: 'Age',
-      },
-      {
-        name: 'address',
-        label: 'Address',
-      },
-      {
-        name: 'action',
-        label: 'Action',
-        searchable: false,
-        sortable: false,
-      },
-    ])
-
-    const add = () => {
-      const rand = Math.round(Math.random() * 100)
-      data.push({
-        id: data.length + 1,
-        name: `Random - ${rand}`,
-        age: rand,
-        address: `Random - ${rand}`,
-        action: '',
-      })
-    }
+    const mode = ref('Client')
 
     return {
-      data,
-      columns,
-      add
+      mode
     }
   }
 }
 </script>
 
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .form {
+    margin-top: 2rem;
+  }
+
+  .container {
+    width: min(100%, 720px);
+    margin: 0 auto;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-top: 1rem;
+  }
+
+  .action {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .5rem;
+    padding-bottom: .5rem;
+    width: 100%;;
+    border-bottom: 1px solid rgb(190, 190, 190);
+  }
+</style>

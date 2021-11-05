@@ -1,0 +1,14 @@
+@use "./../variables" as *;
+
+.next-datatable__info {
+    float: left;
+    clear: both;
+    padding-top: .75rem;
+    color: var(--text-color);
+    font-size: 12px;
+
+    @media screen and (max-width: 767px) {
+        float: none;
+        text-align: center;
+    }
+}

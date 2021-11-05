@@ -8,9 +8,9 @@ module.exports = {
   transform: {
     '^.+\\.(js)?$': '@sucrase/jest-plugin',
     '.*\\.(vue)$': 'vue-next-jest',
+    '^.+\\.scss$': 'jest-scss-transform',
   },
   moduleNameMapper: {
-    // '@vue/test-utils': '<rootDir>/node_modules/vue-next-test-utils',
     '^vue-jest$': '<rootDir>/node_modules/vue-next-jest',
     vue: '<rootDir>/node_modules/vue',
   },

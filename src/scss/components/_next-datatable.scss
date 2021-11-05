@@ -1,0 +1,178 @@
+@use "./../variables" as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.next-datatable {
+    @include variables;
+
+    // font
+    table th {
+        font-family: 'Raleway', sans-serif;
+    }
+    * {
+        font-size: 14px;
+    }
+
+    position: relative;
+    clear: both;
+    overflow: hidden;
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0,0,0,0);
+        border: 0;
+    }
+    .next-datatable__action {
+        margin-bottom: .5rem;
+        & > .next-datatable__action__row {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
+
+.next-datatable__table__wrapper {
+    position: relative;
+    overflow: hidden;
+}
+.next-datatable__table {
+    width: 100%;
+    overflow-x: auto;
+}
+.next-datatable__table {
+    border-collapse: collapse;
+
+    // Table Columns
+    & > thead > tr > th,
+    & > tfoot > tr > th {
+        font-weight: 600;
+        min-width: 15px;
+        text-align: left;
+    }
+
+    // Bordered
+    &.next-datatable__table--bordered {
+        th, td, tr {
+            border: var(--border-width) var(--border-type) var(--border-color);
+        }
+        & > tbody tr {
+            &:last-child {
+                th, td {
+                    border-bottom: none;
+                }
+            }
+        }
+        & > thead th {
+            border-bottom: var(--border-width) var(--border-type) var(--next-datatable-thead-border-bottom-color);        
+        }
+        & > tfoot th {
+            border-top: var(--border-width) var(--border-type) var(--next-datatable-tfoot-border-top-color);
+        }
+    }
+
+    // Borderless
+    &.next-datatable__table--borderless {
+        th, td, tr {
+            border-top: var(--border-width) var(--border-type) var(--border-color);
+            border-bottom: var(--border-width) var(--border-type) var(--border-color);
+        }
+        & > tbody tr {
+            &:last-child {
+                th, td {
+                    border-bottom: none;
+                }
+            }
+        }
+        & > thead {
+            tr {
+                &:first-child {
+                    border-top: none;
+                    th, td {
+                        border-top: none;
+                    }
+                }
+            }
+            th {
+                border-bottom: var(--border-width) var(--border-type) var(--next-datatable-thead-border-bottom-color);        
+            }
+        }
+        & > tfoot {
+            tr {
+                &:first-child {
+                    border-bottom: none;
+                    th, td {
+                        border-bottom: none;
+                    }
+                }
+            }
+            th {
+                border-top: var(--border-width) var(--border-type) var(--next-datatable-tfoot-border-top-color);
+            }
+        }
+    }
+
+    // Sorting
+    & > thead {
+        th.sortable {
+            cursor: pointer;
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAAkElEQVQoz7XQMQ5AQBCF4dWQSJxC5wwax1Cq1e7BAdxD5SL+Tq/QCM1oNiJidwox0355mXnG/DrEtIQ6azioNZQxI0ykPhTQIwhCR+BmBYtlK7kLJYwWCcJA9M4qdrZrd8pPjZWPtOqdRQy320YSV17OatFC4euts6z39GYMKRPCTKY9UnPQ6P+GtMRfGtPnBCiqhAeJPmkqAAAAAElFTkSuQmCC");
+            background-repeat: no-repeat;
+            background-position: center right;
+
+            &.sort_desc {
+                background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAZUlEQVQ4y2NgGAWjYBSggaqGu5FA/BOIv2PBIPFEUgxjB+IdQPwfC94HxLykus4GiD+hGfQOiB3J8SojEE9EM2wuSJzcsFMG4ttQgx4DsRalkZENxL+AuJQaMcsGxBOAmGvopk8AVz1sLZgg0bsAAAAASUVORK5CYII=");
+            }
+            &.sort_asc {
+                background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAAZ0lEQVQ4y2NgGLKgquEuFxBPAGI2ahhWCsS/gDibUoO0gPgxEP8H4ttArEyuQYxAPBdqEAxPBImTY5gjEL9DM+wTENuQahAvEO9DMwiGdwAxOymGJQLxTyD+jgWDxCMZRsEoGAVoAADeemwtPcZI2wAAAABJRU5ErkJggg==");
+            }
+        }
+    }
+
+    // Sizes
+    &.next-datatable__table--sm {
+        th, td, tr {
+            padding: var(--table-sm-cellpadding);
+        }
+    }
+    &.next-datatable__table--md {
+        th, td, tr {
+            padding: var(--table-md-cellpadding);
+        }
+    }
+    &.next-datatable__table--lg {
+        th, td, tr {
+            padding: var(--table-lg-cellpadding);
+        }
+    }
+}
+
+
+@mixin inputSize {
+    padding: .4rem;
+    border-radius: .2rem;
+    border: 1px solid #ccc;
+    transition: box-shadow .2s, outline 0;
+}
+
+.next-datatable__filter {
+    input {
+        @include inputSize;
+
+        &:focus {
+            box-shadow: 0px 2px 10px rgb(224, 223, 228);
+            outline: none
+        }
+    }
+}
+
+.next-datatable__length {
+    select {
+        @include inputSize;
+
+    }
+}
